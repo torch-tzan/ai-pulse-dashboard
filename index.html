@@ -3,342 +3,2011 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Pulse — 社群聲量 Dashboard</title>
+<title>AI Pulse 日報 — 2026/04/01</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{
-  /* Untitled UI — Light Theme */
-  --white:#fff;--bg:#f9fafb;--bg-alt:#f2f4f7;
-  --gray-25:#fcfcfd;--gray-50:#f9fafb;--gray-100:#f2f4f7;--gray-200:#eaecf0;--gray-300:#d0d5dd;
-  --gray-400:#98a2b3;--gray-500:#667085;--gray-600:#475467;--gray-700:#344054;--gray-800:#1d2939;--gray-900:#101828;
-  --primary-25:#fcfaff;--primary-50:#f9f5ff;--primary-100:#f4ebff;--primary-200:#e9d7fe;--primary-300:#d6bbfb;
-  --primary-400:#b692f6;--primary-500:#9e77ed;--primary-600:#7f56d9;--primary-700:#6941c6;--primary-800:#53389e;--primary-900:#42307d;
-  --success-50:#ecfdf3;--success-500:#12b76a;--success-700:#027a48;
-  --error-50:#fef3f2;--error-500:#f04438;--error-700:#b42318;
-  --warning-50:#fffaeb;--warning-500:#f79009;--warning-700:#b54708;
-  --blue-50:#eff8ff;--blue-500:#2e90fa;--blue-700:#175cd3;
-  --teal-50:#f0fdf9;--teal-500:#15b79e;--teal-700:#0e9384;
-  --rose-50:#fff1f3;--rose-500:#f63d68;--rose-700:#c01048;
-  --orange-50:#fff6ed;--orange-500:#ef6820;
+  :root {
+    --white: #fff;
+    --bg: #f9fafb;
+    --bg-alt: #f2f4f7;
+    --gray-25: #fcfcfd;
+    --gray-50: #f9fafb;
+    --gray-100: #f2f4f7;
+    --gray-200: #eaecf0;
+    --gray-300: #d0d5dd;
+    --gray-400: #98a2b3;
+    --gray-500: #667085;
+    --gray-600: #475467;
+    --gray-700: #344054;
+    --gray-800: #1d2939;
+    --gray-900: #101828;
+    --primary-50: #f4ebff;
+    --primary-500: #9e77ed;
+    --primary-600: #7f56d9;
+    --primary-700: #6941c6;
+    --primary-800: #53389e;
+    --success-50: #ecfdf3;
+    --success-500: #12b76a;
+    --success-700: #027a48;
+    --error-50: #fef3f2;
+    --error-500: #f04438;
+    --error-700: #b42318;
+    --warning-50: #fffaeb;
+    --warning-500: #f79009;
+    --warning-700: #b54708;
+    --teal-500: #15b79e;
+    --rose-500: #f63d68;
+    --blue-500: #2e90fa;
+    --shadow-xs: 0 1px 2px rgba(16,24,40,.05);
+    --shadow-sm: 0 1px 3px rgba(16,24,40,.1), 0 1px 2px rgba(16,24,40,.06);
+    --shadow-lg: 0 12px 16px -4px rgba(16,24,40,.08), 0 4px 6px -2px rgba(16,24,40,.03);
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--gray-900); font-size: 14px; line-height: 1.5; }
 
-  --shadow-xs:0 1px 2px rgba(16,24,40,.05);
-  --shadow-sm:0 1px 3px rgba(16,24,40,.1),0 1px 2px rgba(16,24,40,.06);
-  --shadow-md:0 4px 8px -2px rgba(16,24,40,.1),0 2px 4px -2px rgba(16,24,40,.06);
-  --shadow-lg:0 12px 16px -4px rgba(16,24,40,.08),0 4px 6px -2px rgba(16,24,40,.03);
+  /* NAV */
+  .top-bar { background: var(--white); border-bottom: 1px solid var(--gray-200); position: sticky; top: 0; z-index: 100; }
+  .top-bar-inner { max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 18px; color: var(--gray-900); }
+  .logo-icon { width: 32px; height: 32px; background: var(--primary-600); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: white; font-size: 16px; }
+  .nav-tabs { display: flex; gap: 4px; }
+  .nav-tab { padding: 8px 16px; border-radius: var(--radius-md); font-size: 14px; font-weight: 500; cursor: pointer; border: none; background: transparent; color: var(--gray-500); transition: all .15s; }
+  .nav-tab.active { background: var(--primary-50); color: var(--primary-700); }
+  .nav-tab:hover:not(.active) { background: var(--gray-100); color: var(--gray-700); }
+  .date-badge { display: flex; align-items: center; gap: 6px; padding: 6px 12px; background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: var(--radius-md); font-size: 13px; font-weight: 500; color: var(--gray-600); }
 
-  --radius-sm:6px;--radius-md:8px;--radius-lg:12px;--radius-xl:16px;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--gray-900);line-height:1.6;-webkit-font-smoothing:antialiased}
+  /* PAGE */
+  .page { display: none; }
+  .page.active { display: block; }
+  .container { max-width: 1280px; margin: 0 auto; padding: 32px 24px; }
 
-/* ─── NAV ─── */
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;background:var(--white);border-bottom:1px solid var(--gray-200);position:sticky;top:0;z-index:100}
-.topbar .logo{font-size:1.15rem;font-weight:800;color:var(--primary-700);letter-spacing:-.02em}
-.topbar .logo span{color:var(--gray-400);font-weight:500}
-.topbar nav{display:flex;gap:4px;background:var(--gray-100);border-radius:var(--radius-md);padding:4px}
-.topbar nav button{padding:7px 18px;border:none;border-radius:var(--radius-sm);background:transparent;color:var(--gray-500);font-size:1rem;cursor:pointer;font-weight:600;transition:all .15s;font-family:inherit}
-.topbar nav button.active{background:var(--white);color:var(--gray-800);box-shadow:var(--shadow-xs)}
-.topbar nav button:hover:not(.active){color:var(--gray-700)}
+  /* SECTION HEADER */
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .section-title { font-size: 16px; font-weight: 600; color: var(--gray-900); display: flex; align-items: center; gap: 8px; }
+  .section-title .icon { font-size: 18px; }
 
-/* ─── LAYOUT ─── */
-.page{display:none;max-width:1380px;margin:0 auto;padding:24px 28px 60px}
-.page.show{display:block}
-.section-title{font-size:1.2rem;font-weight:700;color:var(--gray-900);margin:36px 0 14px;display:flex;align-items:center;gap:8px}
-.section-title::before{content:'';width:4px;height:20px;border-radius:2px;background:var(--primary-500);flex-shrink:0}
+  /* INSIGHT CARDS 2x2 */
+  .insights-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 32px; }
+  @media(max-width: 768px) { .insights-grid { grid-template-columns: 1fr; } }
+  .insight-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-xl); padding: 20px 24px; box-shadow: var(--shadow-xs); position: relative; overflow: hidden; }
+  .insight-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .insight-card.purple::before { background: var(--primary-600); }
+  .insight-card.teal::before { background: var(--teal-500); }
+  .insight-card.rose::before { background: var(--rose-500); }
+  .insight-card.amber::before { background: var(--warning-500); }
+  .insight-num { font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 8px; }
+  .insight-card.purple .insight-num { color: var(--primary-700); }
+  .insight-card.teal .insight-num { color: var(--teal-500); }
+  .insight-card.rose .insight-num { color: var(--rose-500); }
+  .insight-card.amber .insight-num { color: var(--warning-700); }
+  .insight-title { font-size: 15px; font-weight: 600; color: var(--gray-900); margin-bottom: 6px; }
+  .insight-body { font-size: 13px; color: var(--gray-600); line-height: 1.6; }
 
-/* ─── DATE PICKER ─── */
-.date-bar{display:flex;align-items:center;gap:8px;margin-bottom:24px;flex-wrap:wrap}
-.date-bar button{padding:6px 14px;border-radius:var(--radius-md);border:1px solid var(--gray-300);background:var(--white);color:var(--gray-700);cursor:pointer;font-size:1rem;transition:all .15s;font-family:inherit;font-weight:500}
-.date-bar button:hover{border-color:var(--primary-300);color:var(--primary-700)}
-.date-bar button.sel{background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-300)}
-.date-bar .arrow{font-size:1rem;padding:6px 10px;color:var(--gray-500)}
-.date-bar .hint{color:var(--gray-400);font-size:.875rem;margin-left:8px}
+  /* KPI CARDS */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+  @media(max-width: 900px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+  .kpi-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-xs); }
+  .kpi-label { font-size: 12px; font-weight: 500; color: var(--gray-500); margin-bottom: 8px; }
+  .kpi-value { font-size: 28px; font-weight: 700; color: var(--gray-900); margin-bottom: 4px; }
+  .kpi-sub { font-size: 12px; color: var(--gray-400); }
+  .kpi-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-top: 6px; }
+  .kpi-badge.up { background: var(--success-50); color: var(--success-700); }
+  .kpi-badge.down { background: var(--error-50); color: var(--error-700); }
+  .kpi-badge.neutral { background: var(--gray-100); color: var(--gray-600); }
 
-/* ─── CARDS ─── */
-.card{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-xl);padding:24px;box-shadow:var(--shadow-xs);transition:box-shadow .15s}
-.card:hover{box-shadow:var(--shadow-sm)}
-.card h3{font-size:1.05rem;font-weight:600;color:var(--gray-700);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  /* CHARTS GRID */
+  .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+  @media(max-width: 900px) { .charts-grid { grid-template-columns: 1fr; } }
+  .chart-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-xs); }
+  .chart-title { font-size: 14px; font-weight: 600; color: var(--gray-800); margin-bottom: 4px; }
+  .chart-sub { font-size: 12px; color: var(--gray-500); margin-bottom: 16px; }
+  .chart-wrap { position: relative; height: 220px; }
 
-.grid{display:grid;gap:16px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr 1fr}.g4{grid-template-columns:repeat(4,1fr)}
-@media(max-width:960px){.g2,.g3,.g4{grid-template-columns:1fr}}
+  /* INFO TIP */
+  .info-tip { position: relative; display: inline-flex; align-items: center; }
+  .info-tip .tip-icon { width: 16px; height: 16px; background: var(--gray-200); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; color: var(--gray-500); cursor: default; margin-left: 6px; }
+  .info-tip .tip-text { visibility: hidden; opacity: 0; position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%); background: var(--gray-900); color: white; font-size: 12px; padding: 8px 12px; border-radius: var(--radius-md); width: 240px; line-height: 1.5; transition: opacity .2s; z-index: 50; pointer-events: none; }
+  .info-tip:hover .tip-text { visibility: visible; opacity: 1; }
 
-/* ─── KPIs ─── */
-.kpi{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow-xs)}
-.kpi .v{font-size:1.85rem;font-weight:800;letter-spacing:-.03em;color:var(--gray-900)}.kpi .l{font-size:.95rem;color:var(--gray-500);margin-top:2px;font-weight:500}.kpi .d{font-size:.875rem;margin-top:6px;font-weight:600}
-.kpi .up{color:var(--success-700)}.kpi .dn{color:var(--error-700)}
+  /* DEPTH BARS */
+  .depth-section { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-xs); margin-bottom: 32px; }
+  .depth-row { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+  .depth-row:last-child { margin-bottom: 0; }
+  .depth-label { width: 110px; font-size: 13px; font-weight: 500; color: var(--gray-700); flex-shrink: 0; }
+  .depth-bar-wrap { flex: 1; background: var(--gray-100); border-radius: 999px; height: 10px; }
+  .depth-bar { height: 10px; border-radius: 999px; transition: width 1s ease; }
+  .depth-bar.deep { background: var(--primary-600); }
+  .depth-bar.medium { background: var(--teal-500); }
+  .depth-bar.shallow { background: var(--warning-500); }
+  .depth-pct { width: 40px; font-size: 13px; font-weight: 600; color: var(--gray-700); text-align: right; }
+  .depth-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+  .depth-tag { padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 500; }
+  .depth-tag.deep { background: var(--primary-50); color: var(--primary-700); }
+  .depth-tag.medium { background: #e6faf8; color: #0e7a6b; }
+  .depth-tag.shallow { background: var(--warning-50); color: var(--warning-700); }
 
-/* ─── TOPIC CARD ─── */
-.topic-card{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:16px 20px;margin-bottom:10px;transition:all .15s;box-shadow:var(--shadow-xs)}
-.topic-card:hover{border-color:var(--primary-200);box-shadow:var(--shadow-sm)}
-.tc-header{display:flex;align-items:flex-start;gap:14px;cursor:pointer}
-.tc-rank{font-size:1.3rem;font-weight:800;color:var(--primary-600);min-width:32px;line-height:1.2;padding-top:2px}
-.tc-body{flex:1;text-align:left}
-.tc-title{font-weight:700;font-size:1.05rem;color:var(--gray-900);line-height:1.45}
-.tc-sub{font-size:.95rem;color:var(--gray-500);margin-top:2px}
-.tc-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px}
-.tc-heat{font-size:.95rem;white-space:nowrap}
-.tc-toggle-btn{font-size:.875rem;color:var(--gray-400);margin-left:auto;cursor:pointer;user-select:none;padding:3px 10px;border:1px solid var(--gray-200);border-radius:var(--radius-sm);font-weight:500;transition:all .15s;font-family:inherit}
-.tc-toggle-btn:hover{color:var(--primary-600);border-color:var(--primary-200);background:var(--primary-25)}
-.topic-card.open .tc-toggle-btn{color:var(--primary-700);border-color:var(--primary-300);background:var(--primary-50)}
+  /* TOPICS */
+  .topics-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
+  .topic-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); box-shadow: var(--shadow-xs); overflow: hidden; }
+  .topic-header { display: flex; align-items: center; gap: 12px; padding: 16px 20px; cursor: pointer; user-select: none; transition: background .1s; }
+  .topic-header:hover { background: var(--gray-50); }
+  .topic-rank { width: 28px; height: 28px; border-radius: var(--radius-sm); background: var(--gray-100); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--gray-500); flex-shrink: 0; }
+  .topic-rank.hot { background: var(--primary-50); color: var(--primary-700); }
+  .topic-name { flex: 1; font-size: 14px; font-weight: 600; color: var(--gray-800); }
+  .topic-meta { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .platform-tags { display: flex; gap: 4px; }
+  .platform-tag { padding: 2px 7px; background: var(--gray-100); color: var(--gray-600); border-radius: 999px; font-size: 10px; font-weight: 500; }
+  .depth-chip { padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; }
+  .depth-chip.deep { background: var(--primary-50); color: var(--primary-700); }
+  .depth-chip.medium { background: #e6faf8; color: #0e7a6b; }
+  .depth-chip.shallow { background: var(--warning-50); color: var(--warning-700); }
+  .fire { font-size: 13px; letter-spacing: -1px; }
+  .chevron { width: 16px; height: 16px; transition: transform .2s; color: var(--gray-400); }
+  .chevron.open { transform: rotate(180deg); }
+  .topic-body { display: none; padding: 0 20px 20px; border-top: 1px solid var(--gray-100); }
+  .topic-body.open { display: block; }
+  .topic-summary { font-size: 13px; color: var(--gray-600); line-height: 1.7; margin: 12px 0; background: var(--gray-50); border-radius: var(--radius-md); padding: 12px 16px; border-left: 3px solid var(--primary-500); }
+  .topic-sources-title { font-size: 12px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+  .topic-sources { display: flex; flex-direction: column; gap: 6px; }
+  .topic-source { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+  .source-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--primary-400); flex-shrink: 0; }
+  .topic-source a { color: var(--primary-600); text-decoration: none; }
+  .topic-source a:hover { text-decoration: underline; }
 
-.tc-expand{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;padding-top:0}
-.topic-card.open .tc-expand{max-height:800px;padding-top:14px}
-.tc-summary-text{font-size:1rem;line-height:1.75;text-align:left;margin-bottom:12px;color:var(--gray-700)}
-.tc-sources{text-align:left;border-top:1px solid var(--gray-200);padding-top:10px}
-.tc-sources-title{font-size:.8rem;color:var(--gray-400);text-transform:uppercase;letter-spacing:.6px;font-weight:600;margin-bottom:6px}
-.tc-sources a{display:inline-block;font-size:.95rem;color:var(--primary-600);text-decoration:none;margin-right:16px;margin-bottom:4px;font-weight:500;transition:color .15s}
-.tc-sources a:hover{color:var(--primary-800);text-decoration:underline}
-.tc-sources a::before{content:'\2197 '}
+  /* MARKET TABLE */
+  .table-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); box-shadow: var(--shadow-xs); overflow: hidden; margin-bottom: 32px; }
+  table { width: 100%; border-collapse: collapse; }
+  thead th { background: var(--gray-50); padding: 12px 16px; text-align: left; font-size: 12px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: .05em; border-bottom: 1px solid var(--gray-200); }
+  tbody td { padding: 14px 16px; font-size: 13px; color: var(--gray-700); border-bottom: 1px solid var(--gray-100); }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: var(--gray-25); }
+  .td-name { font-weight: 600; color: var(--gray-800); }
+  .td-badge { display: inline-flex; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; }
 
-/* badges */
-.badge{display:inline-block;padding:2px 10px;border-radius:16px;font-size:.8rem;font-weight:600}
-.b-deep{background:var(--primary-50);color:var(--primary-700);border:1px solid var(--primary-200)}
-.b-mid{background:var(--teal-50);color:var(--teal-700);border:1px solid #99f6e4}
-.b-shallow{background:var(--rose-50);color:var(--rose-700);border:1px solid #fecdd3}
-.pb{display:inline-block;padding:1px 8px;border-radius:var(--radius-sm);font-size:.75rem;font-weight:600;margin-right:2px}
-.pb-x{background:#eff6ff;color:#1d4ed8}.pb-reddit{background:#fff7ed;color:#c2410c}.pb-ptt{background:#f0fdf4;color:#15803d}
-.pb-dcard{background:#eff6ff;color:#0369a1}.pb-yt{background:var(--error-50);color:var(--error-700)}.pb-li{background:var(--blue-50);color:var(--blue-700)}
-.pb-threads{background:var(--gray-100);color:var(--gray-700)}.pb-ig{background:var(--rose-50);color:var(--rose-700)}.pb-fb{background:var(--blue-50);color:var(--blue-700)}
+  /* WEEKLY PLACEHOLDER */
+  .weekly-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 400px; color: var(--gray-400); gap: 12px; }
+  .weekly-empty-icon { font-size: 48px; }
+  .weekly-empty-title { font-size: 16px; font-weight: 600; color: var(--gray-500); }
 
-/* ─── INFO TOOLTIP ─── */
-.info-tip{position:relative;display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--gray-100);color:var(--gray-500);font-size:.7rem;font-weight:700;cursor:help;margin-left:5px;vertical-align:middle;border:1px solid var(--gray-200);flex-shrink:0}
-.info-tip .tip-content{visibility:hidden;opacity:0;position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%);width:320px;padding:14px 16px;background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);font-size:.875rem;font-weight:400;color:var(--gray-700);line-height:1.6;z-index:200;pointer-events:none;transition:opacity .2s;box-shadow:var(--shadow-lg)}
-.info-tip .tip-content::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--gray-200)}
-.info-tip:hover .tip-content{visibility:visible;opacity:1;pointer-events:auto}
-.tip-label{color:var(--primary-700);font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px;display:block}
-.tip-src{color:var(--gray-400);font-size:.8rem;margin-top:6px;border-top:1px solid var(--gray-200);padding-top:6px}
-.tip-src a{color:var(--primary-600);text-decoration:none}.tip-src a:hover{text-decoration:underline}
-
-/* ─── BARS ─── */
-.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.bar-label{width:100px;font-size:1rem;text-align:right;flex-shrink:0;color:var(--gray-500);font-weight:500}
-.bar-track{flex:1;height:26px;background:var(--gray-100);border-radius:13px;overflow:hidden}
-.bar-fill{height:100%;border-radius:11px;display:flex;align-items:center;justify-content:flex-end;padding-right:9px;font-size:.8rem;font-weight:700;color:var(--white);transition:width .6s ease}
-
-/* chart */
-.chart-w{position:relative;width:100%;max-height:300px}
-.chart-w canvas{width:100%!important}
-
-/* insight */
-.insight{background:var(--primary-25);border:1px solid var(--primary-100);border-radius:var(--radius-lg);padding:18px 20px;margin-bottom:12px}
-.insight h4{font-size:1.05rem;font-weight:700;color:var(--primary-800);margin-bottom:4px}
-.insight p{font-size:1rem;line-height:1.75;color:var(--gray-700)}
-
-/* table */
-table{width:100%;border-collapse:collapse;font-size:1rem}
-th{text-align:left;padding:10px 8px;border-bottom:2px solid var(--gray-200);color:var(--gray-500);font-size:.875rem;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
-td{padding:10px 8px;border-bottom:1px solid var(--gray-100);color:var(--gray-700)}
-
-/* weekly */
-.week-header{text-align:center;padding:28px 0 8px}
-.week-header h2{font-size:1.5rem;font-weight:800;color:var(--gray-900);letter-spacing:-.02em}
-.week-header p{color:var(--gray-500);font-size:1rem;margin-top:4px}
-
-.footer{text-align:center;color:var(--gray-400);font-size:.875rem;margin-top:48px;padding-top:20px;border-top:1px solid var(--gray-200)}
+  /* DIVIDER */
+  .divider { height: 1px; background: var(--gray-200); margin: 32px 0; }
 </style>
 </head>
 <body>
 
-<!-- ═══════ TOP BAR ═══════ -->
-<div class="topbar">
-  <div class="logo">AI Pulse <span>/ Dashboard</span></div>
-  <nav>
-    <button class="active" onclick="showPage('daily',this)">每日報告</button>
-    <button onclick="showPage('weekly',this)">每週彙整</button>
-  </nav>
-</div>
-
-<!-- ═══════ PAGE 1: 每日報告 ═══════ -->
-<div id="daily" class="page show">
-
-<div class="date-bar">
-  <button class="arrow" onclick="shiftDate(-1)">&larr;</button>
-  <button class="sel" id="btn-2026-03-31">2026-03-31（二）</button>
-  <button id="btn-2026-03-30" onclick="selectDate('2026-03-30',this)">03-30</button>
-  <button id="btn-2026-03-29" onclick="selectDate('2026-03-29',this)">03-29</button>
-  <button id="btn-2026-03-28" onclick="selectDate('2026-03-28',this)">03-28</button>
-  <button id="btn-2026-03-27" onclick="selectDate('2026-03-27',this)">03-27</button>
-  <button class="arrow" onclick="shiftDate(1)">&rarr;</button>
-  <span class="hint">* 目前僅 03-31 有資料；排程開啟後每天自動新增</span>
-</div>
-
-<!-- ─── 今日洞察（置頂）─── -->
-<h2 class="section-title">今日洞察 & 市場判斷</h2>
-<div class="grid g2" style="margin-bottom:12px">
-  <div class="insight"><h4>🎯 Agent 落地落差巨大</h4><p>79% 企業已採用 AI Agent，但僅 11% 投產。機會在於幫企業從 POC 推到 Production——數據整合、流程重設計、安全合規是主要痛點。</p></div>
-  <div class="insight"><h4>🎯 淺層使用者仍是主流，中間層快速擴大</h4><p>52% 開發者僅用基礎工具。社群最熱的是「ChatGPT vs Claude 哪個好」。但 No-code Agent Builder 和 MCP 低門檻整合正在把「中度應用者」快速撐大。</p></div>
-</div>
-<div class="grid g2" style="margin-bottom:28px">
-  <div class="insight"><h4>🎯 台灣市場處於「想學但還不會」窗口期</h4><p>PTT/Dcard/FB 討論集中在工具比較、課程分享、職涯焦慮。AI 培訓專班詢問度極高——這是教學型內容的黃金期。</p></div>
-  <div class="insight"><h4>🎯 AI 信任危機正在反噬平台</h4><p>56% 用戶頻繁看到 AI slop，YouTube 去貨幣化無臉頻道。真正有價值的是「用 AI 做出有人味的高品質內容」，而非「用 AI 批量產出」。</p></div>
-</div>
-
-<!-- KPIs -->
-<div class="grid g4" style="margin-bottom:28px">
-  <div class="kpi"><div class="v">~38%</div><div class="l">AI 佔科技話題比重 <span class="info-tip">i<span class="tip-content"><span class="tip-label">計算邏輯</span>以各平台科技類版面的 AI 相關貼文數佔總貼文數加權平均。<span class="tip-src">來源：<a href="https://sproutsocial.com/insights/the-state-of-social-media/" target="_blank">Sprout Social 2026</a></span></span></span></div><div class="d up">較上月 +4%</div></div>
-  <div class="kpi"><div class="v">71%</div><div class="l">社群圖片為 AI 生成 <span class="info-tip">i<span class="tip-content"><span class="tip-label">計算邏輯</span>社群平台圖片經 AI 偵測工具標記為合成內容的比例。<span class="tip-src">來源：<a href="https://sqmagazine.co.uk/ai-in-social-media-tools-statistics/" target="_blank">SQ Magazine 2026</a></span></span></span></div><div class="d up">2026 全球均值</div></div>
-  <div class="kpi"><div class="v">84%</div><div class="l">開發者使用/計畫使用 AI <span class="info-tip">i<span class="tip-content"><span class="tip-label">計算邏輯</span>Stack Overflow 2025 Developer Survey：84% 受訪者「使用」或「計畫採用」AI 工具。<span class="tip-src">來源：<a href="https://www.getpanto.ai/blog/ai-coding-assistant-statistics" target="_blank">AI Coding Stats</a></span></span></span></div><div class="d up">YoY +8%</div></div>
-  <div class="kpi"><div class="v">$10.9B</div><div class="l">AI Agent 市場規模 <span class="info-tip">i<span class="tip-content"><span class="tip-label">計算邏輯</span>含企業 Agent 軟體、平台、Agent-as-a-Service。CAGR 45-49.6%。<span class="tip-src">來源：<a href="https://www.demandsage.com/ai-agents-statistics/" target="_blank">DemandSage</a></span></span></span></div><div class="d up">YoY +45%</div></div>
-</div>
-
-<!-- ─── Section 1: 各平台佔比 ─── -->
-<h2 class="section-title">1. AI 在各平台的話題佔比 <span class="info-tip">i<span class="tip-content"><span class="tip-label">方法說明</span>每日透過 WebSearch 抓取各平台科技版面熱門內容，統計含 AI 關鍵字的比例。為估算值，非精確 API 計數。<span class="tip-src">來源：每日 WebSearch + <a href="https://sproutsocial.com/insights/the-state-of-social-media/" target="_blank">Sprout Social</a></span></span></span></h2>
-<div class="grid g2" style="margin-bottom:28px">
-  <div class="card"><h3>AI 佔科技話題比例（%）</h3><div class="chart-w"><canvas id="cBar1"></canvas></div></div>
-  <div class="card">
-    <h3>各平台 AI 內容滲透率 <span class="info-tip">i<span class="tip-content"><span class="tip-label">滲透率定義</span>該平台上 AI 生成或 AI 相關內容佔全部內容的比例。LinkedIn 54% 特指長文。<span class="tip-src">來源：<a href="https://infludata.com/blog/ai-social-media-trends-and-developments-2026" target="_blank">Infludata 2026</a></span></span></span></h3>
-    <div style="margin-top:6px">
-      <div class="bar-row"><div class="bar-label">LinkedIn</div><div class="bar-track"><div class="bar-fill" style="width:54%;background:linear-gradient(90deg,var(--primary-500),var(--primary-300))">54%</div></div></div>
-      <div class="bar-row"><div class="bar-label">Reddit</div><div class="bar-track"><div class="bar-fill" style="width:47%;background:linear-gradient(90deg,var(--orange-500),#fbbf24)">47%</div></div></div>
-      <div class="bar-row"><div class="bar-label">X / Twitter</div><div class="bar-track"><div class="bar-fill" style="width:42%;background:linear-gradient(90deg,var(--blue-500),#93c5fd)">42%</div></div></div>
-      <div class="bar-row"><div class="bar-label">YouTube</div><div class="bar-track"><div class="bar-fill" style="width:39%;background:linear-gradient(90deg,var(--error-500),#fca5a5)">39%</div></div></div>
-      <div class="bar-row"><div class="bar-label">Dcard</div><div class="bar-track"><div class="bar-fill" style="width:33%;background:linear-gradient(90deg,#0ea5e9,#7dd3fc)">33%</div></div></div>
-      <div class="bar-row"><div class="bar-label">FB 社團</div><div class="bar-track"><div class="bar-fill" style="width:31%;background:linear-gradient(90deg,#3b82f6,#93c5fd)">31%</div></div></div>
-      <div class="bar-row"><div class="bar-label">PTT</div><div class="bar-track"><div class="bar-fill" style="width:28%;background:linear-gradient(90deg,var(--teal-500),#5eead4)">28%</div></div></div>
-      <div class="bar-row"><div class="bar-label">Threads/IG</div><div class="bar-track"><div class="bar-fill" style="width:22%;background:linear-gradient(90deg,var(--rose-500),#fda4af)">22%</div></div></div>
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <div class="logo">
+      <div class="logo-icon">⚡</div>
+      AI Pulse
+    </div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="switchTab('daily')">每日報告</button>
+      <button class="nav-tab" onclick="switchTab('weekly')">每週彙整</button>
+    </div>
+    <div class="date-badge">
+      <span>📅</span>
+      <span>2026 / 04 / 01</span>
     </div>
   </div>
 </div>
 
-<!-- ─── Section 2: TOP 15 ─── -->
-<h2 class="section-title">2. 今日 AI 熱門話題 TOP 15</h2>
-<div id="topic-list">
+<!-- DAILY PAGE -->
+<div id="page-daily" class="page active">
+<div class="container">
 
-<div class="topic-card" id="t01"><div class="tc-header" onclick="this.parentElement.classList.toggle('open')"><span class="tc-rank">01</span><div class="tc-body"><div class="tc-title">Google Gemini 3.1 Flash-Lite 發布 — 效率模型新標竿</div><div class="tc-sub">定價 $0.25/M tokens，推理速度 2.5× 快，輸出 381.9 tok/s</div><div class="tc-meta"><span class="pb pb-x">X</span><span class="pb pb-reddit">Reddit</span><span class="pb pb-li">LinkedIn</span><span class="badge b-mid">中度</span><span class="tc-heat">🔥🔥🔥🔥🔥</span><span class="tc-toggle-btn">展開摘要</span></div></div></div><div class="tc-expand"><div class="tc-summary-text">Google 於 3/3 發布 Gemini 3.1 Flash-Lite Preview，定價僅 $0.25/百萬輸入 token，推理速度較 2.5 Flash 快 2.5 倍，輸出達 381.9 tokens/sec（快 64%）。GPQA Diamond 86.9%、MMMU Pro 76.8%，Arena Elo 1432。<br><br><strong>市場意義：</strong>AI 模型競爭進入「效率戰」——不比誰最聰明，而是比同等成本下誰跑最快。API 成本壓低讓更多 Agent 場景可經濟落地。</div><div class="tc-sources"><div class="tc-sources-title">來源文章 & 討論串</div><a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-lite/" target="_blank">Google Blog 官方發布</a><a href="https://venturebeat.com/technology/google-releases-gemini-3-1-flash-lite-at-1-8th-the-cost-of-pro/" target="_blank">VentureBeat</a><a href="https://siliconangle.com/2026/03/03/google-launches-speedy-gemini-3-1-flash-lite-model-preview/" target="_blank">SiliconANGLE</a><a href="https://artificialanalysis.ai/models/gemini-3-1-flash-lite-preview" target="_blank">Artificial Analysis 評測</a></div></div></div>
-
-<div class="topic-card" id="t02"><div class="tc-header" onclick="this.parentElement.classList.toggle('open')"><span class="tc-rank">02</span><div class="tc-body"><div class="tc-title">Claude 擠下 ChatGPT 登頂 App Store 下載冠軍</div><div class="tc-sub">日活 1,100 萬，免費用戶 +60%，付費訂閱倍增</div><div class="tc-meta"><span class="pb pb-threads">Threads</span><span class="pb pb-fb">FB</span><span class="pb pb-dcard">Dcard</span><span class="pb pb-reddit">Reddit</span><span class="badge b-shallow">淺層</span><span class="tc-heat">🔥🔥🔥🔥🔥</span><span class="tc-toggle-btn">展開摘要</span></div></div></div><div class="tc-expand"><div class="tc-summary-text">Claude 3 月初登上美國 App Store 第一名。導火線：OpenAI 與國防部簽 $2 億合約。Reddit「Cancel ChatGPT」貼文獲 3 萬贊。Claude 日活破 1,100 萬。<br><br><strong>市場意義：</strong>AI 產品競爭已超越技術——「品牌價值觀」成為差異因素。用戶用腳投票選擇倫理立場一致的服務商。</div><div class="tc-sources"><div class="tc-sources-title">來源文章 & 討論串</div><a href="https://www.axios.com/2026/03/01/anthropic-claude-chatgpt-app-downloads-pentagon" target="_blank">Axios 獨家</a><a href="https://techcrunch.com/2026/03/01/anthropics-claude-rises-to-no-2-in-the-app-store-following-pentagon-dispute/" target="_blank">TechCrunch</a><a href="https://fortune.com/2026/03/02/anthropic-claude-dario-amodei-number-one-app-store-openai-chatgpt-sam-altman-department-war/" target="_blank">Fortune</a><a href="https://www.cnn.com/2026/03/03/tech/anthropic-claude-ai-app-pentagon" target="_blank">CNN Business</a></div></div></div>
-
-<div class="topic-card" id="t03"><div class="tc-header" onclick="this.parentElement.classList.toggle('open')"><span class="tc-rank">03</span><div class="tc-body"><div class="tc-title">AI Agent 企業導入急速成長 — Gartner：40% 企業將嵌入 Agent</div><div class="tc-sub">導入率兩季從 11%→42%，但僅 11% 真正投產</div><div class="tc-meta"><span class="pb pb-li">LinkedIn</span><span class="pb pb-x">X</span><span class="pb pb-reddit">Reddit</span><span class="badge b-deep">深度</span><span class="tc-heat">🔥🔥🔥🔥</span><span class="tc-toggle-btn">展開摘要</span></div></div></div><div class="tc-expand"><div class="tc-summary-text">Gartner 預測 40% 企業應用將嵌入 AI Agent（vs 2025 年 <5%）。導入率兩季 11%→42%，93% IT 主管計畫部署。但只有 ~11% 真正投產。<br><br><strong>市場意義：</strong>Agent 市場處於「POC 泡沫」。商機在「Agent 落地服務」：幫企業解決數據整合、流程重設計、安全合規。</div><div class="tc-sources"><div class="tc-sources-title">來源文章 & 討論串</div><a href="https://www.salesmate.io/blog/ai-agents-adoption-statistics/" target="_blank">AI Agent Adoption Stats</a><a href="https://www.digitalapplied.com/blog/agentic-ai-statistics-2026-definitive-collection-150-data-points" target="_blank">150+ Agentic AI 數據</a><a href="https://www.warmly.ai/p/blog/ai-agents-statistics" target="_blank">Warmly: 35+ Agent 統計</a></div></div></div>
-
-<div class="topic-card" id="t04"><div class="tc-header" onclick="this.parentElement.classList.toggle('open')"><span class="tc-rank">04</span><div class="tc-body"><div class="tc-title">ChatGPT vs Claude vs Gemini — 2026 三大 AI 年度評測</div><div class="tc-sub">GPT-5.4 Thinking vs Claude Opus 4.6 vs Gemini 3.1</div><div class="tc-meta"><span class="pb pb-fb">FB</span><span class="pb pb-dcard">Dcard</span><span class="pb pb-yt">YT</span><span class="badge b-shallow">淺層</span><span class="tc-heat">🔥🔥🔥🔥</span><span class="tc-toggle-btn">展開摘要</span></div></div></div><div class="tc-expand"><div class="tc-summary-text">GPT-5 系列上線、GPT-4o 退役；Claude Opus 4.6 實測「近乎全勝」；Gemini 3.1 主打性價比。台灣社群最熱：「三個選哪個付費」。<br><br><strong>市場意義：</strong>「選品比較」是最大流量池，適合入口型內容——先比較吸流量，再導向深度教學。</div><div class="tc-sources"><div class="tc-sources-title">來源文章 & 討論串</div><a href="https://abmedia.io/chatgpt-complete-guide-2026" target="_blank">ABMedia: ChatGPT 2026 介紹</a><a href="https://abmedia.io/claude-ai-complete-guide-2026" target="_blank">ABMedia: Claude 2026 介紹</a><a href="https://tools.caca01.com/articles/claude-vs-chatgpt-ai-code-2026" target="_blank">程式開發實測比較</a><a href="https://maplefeather.com/article/claude-chatgpt-gemini-comparison-2026" target="_blank">三大 AI 購買建議</a></div></div></div>
-
-<div class="topic-card" id="t05"><div class="tc-header" onclick="this.parentElement.classList.toggle('open')"><span class="tc-rank">05</span><div class="tc-body"><div class="tc-title">MCP 生態爆發 — 9,700 萬下載，Agent 基礎設施標準確立</div><div class="tc-sub">16 個月增長 4,750%，10,000+ 伺服器，捐贈 Linux 基金會</div><div class="tc-meta"><span class="pb pb-reddit">Reddit</span><span class="pb pb-x">X</span><span class="pb pb-li">LinkedIn</span><span class="badge b-deep">深度</span><span class="tc-heat">🔥🔥🔥🔥</span><span class="tc-toggle-btn">展開摘要</span></div></div></div><div class="tc-expand"><div class="tc-summary-text">MCP 3/25 達 9,700 萬月下載，10,000+ 伺服器。Claude、ChatGPT、Gemini、Copilot、Cursor 全數原生支援。已捐贈 Linux 基金會 AAIF。<br><br><strong>市場意義：</strong>MCP 是 Agent 世界的「TCP/IP」。深度開發者必備技能，「工具整合」是 Agent 落地最關鍵一環。</div><div class="tc-sources"><div class="tc-sources-title">來源文章 & 討論串</div><a href="https://www.digitalapplied.com/blog/mcp-97-million-downloads-model-context-protocol-mainstream" target="_blank">MCP 9,700 萬下載分析</a><a href="https://www.anthropic.com/news/donating-the-model-context-protocol-and-establishing-of-the-agentic-ai-foundation" target="_blank">Anthropic: 捐贈 MCP</a><a href="https://arxiv.org/abs/2603.13417" target="_blank">arXiv: MCP 部署設計模式</a></div></div></div>
-
-<div class="topic-card" id="t06"><div class="tc-header" onclick="this.parentElement.classList.toggle('open')"><span class="tc-rank">06</span><div class="tc-body"><div class="tc-title">AI 生成內容信任危機 — 56% 用戶頻繁見到 AI slop</div><div class="tc-sub">82% 成年人曾誤認 AI 圖片，Mosseri 承認「真實性可無限複製」</div><div class="tc-meta"><span class="pb pb-threads">Threads</span><span class="pb pb-ig">IG</span><span class="pb pb-x">X</span><span class="badge b-shallow">淺層</span><span class="tc-heat">🔥🔥🔥🔥</span><span class="tc-toggle-btn">展開摘要</span></div></div></div><div class="tc-expand"><div class="tc-summary-text">Mosseri 承認「真實性可無限複製」。82% 成年人誤認 AI 圖片，誤認者被詐騙機率高 9 倍。平台轉向「指紋驗證真內容」。<br><br><strong>市場意義：</strong>AI 內容氾濫創造「反向稀缺」——真實有人味的內容更有價值。建立可信任的個人品牌是最大護城河。</div><div class="tc-sources"><div class="tc-sources-title">來源文章 & 討論串</div><a href="https://medium.com/@impactnews-wire/navigating-2026s-authenticity-crisis-adam-mosseri-s-urgent-wake-up-call-on-ai-and-digital-trust-ad3e569ff2fd" target="_blank">Mosseri 真實性危機長文</a><a href="https://www.creativebloq.com/art/digital-art/instagrams-boss-admits-ai-slop-has-won-but-where-does-that-leave-creatives" target="_blank">Creative Bloq</a><a href="https://www.tomsguide.com/ai/instagram-says-ai-killed-the-curated-feed-now-its-scrambling-to-prove-whats-real" target="_blank">Tom's Guide</a></div></div></div>
-
-<div class="topic-card" id="t07"><div class="tc-header" onclick="this.parentElement.classList.toggle('open')"><span class="tc-rank">07</span><div class="tc-body"><div class="tc-title">台灣 AI 基本法三讀通過 — 後續法制影響追蹤</div><div class="tc-sub">以「原則宣示」為主，缺乏具體執行機制</div><div class="tc-meta"><span class="pb pb-threads">Threads</span><span class="pb pb-ptt">PTT</span><span class="pb pb-fb">FB</span><span class="badge b-shallow">淺層</span><span class="tc-heat">🔥🔥🔥</span><span class="tc-toggle-btn">展開摘要</span></div></div></div><div class="tc-expand"><div class="tc-summary-text">台灣 2025/12/23 三讀通過 AI 基本法。批評者認為缺乏 EU AI Act 般具體執行機制。<br><br><strong>市場意義：</strong>短期不影響開發者，長期將影響高風險 AI 部署策略。</div><div class="tc-sources"><div class="tc-sources-title">來源文章 & 討論串</div><a href="https://www.threads.com/@dr.juchunko/post/DSmIUZujw47/" target="_blank">立委 Threads 貼文</a><a href="https://www.ithome.com.tw/news/172987" target="_blank">iThome: 資策會十大 AI 技術</a></div></div></div>
-
-<div class="topic-card" id="t08"><div class="tc-header" onclick="this.parentElement.classList.toggle('open')"><span class="tc-rank">08</span><div class="tc-body"><div class="tc-title">Samsung 目標 8 億台 Gemini AI 裝置</div><div class="tc-sub">AI 功能從旗艦走向中低階裝置</div><div class="tc-meta"><span class="pb pb-x">X</span><span class="pb pb-reddit">Reddit</span><span class="pb pb-yt">YT</span><span class="badge b-mid">中度</span><span class="tc-heat">🔥🔥🔥</span><span class="tc-toggle-btn">展開摘要</span></div></div></div><div class="tc-expand"><div class="tc-summary-text">Samsung 2026 年底讓 8 億台裝置搭載 Gemini AI。<br><br><strong>市場意義：</strong>AI 變手機標配，端側 AI 應用爆發——即時翻譯、語音助理可不依賴雲端。</div><div class="tc-sources"><div class="tc-sources-title">來源文章 & 討論串</div><a href="https://www.crescendo.ai/news/latest-ai-news-and-updates" target="_blank">Crescendo AI News</a><a href="https://socialbu.com/blog/twitter-trending-topics" target="_blank">SocialBu Trends</a></div></div></div>
-
-<div class="topic-card" id="t09"><div class="tc-header" onclick="this.parentElement.classList.toggle('open')"><span class="tc-rank">09</span><div class="tc-body"><div class="tc-title">AI Coding 日常化 — 41% 程式碼為 AI 生成</div><div class="tc-sub">Cursor / Copilot / Codeium 三強比較，75% 仍需人工審核</div><div class="tc-meta"><span class="pb pb-reddit">Reddit</span><span class="pb pb-li">LinkedIn</span><span class="pb pb-dcard">Dcard</span><span class="badge b-deep">深度</span><span class="tc-heat">🔥🔥🔥</span><span class="tc-toggle-btn">展開摘要</span></div></div></div><div class="tc-expand"><div class="tc-summary-text">84% 開發者用 AI，51% 每天用，省 ~3.6hr/週。AI 代碼佔 41%，但 75% 仍手動審核。<br><br><strong>市場意義：</strong>AI 是「輔助」非「取代」。判斷 AI 產出品質是深度應用者的核心競爭力。</div><div class="tc-sources"><div class="tc-sources-title">來源文章 & 討論串</div><a href="https://www.getpanto.ai/blog/ai-coding-assistant-statistics" target="_blank">AI Coding Statistics</a><a href="https://keyholesoftware.com/software-development-statistics-2026-market-size-developer-trends-technology-adoption/" target="_blank">2026 開發者趨勢</a><a href="https://www.index.dev/blog/ai-assistant-statistics" target="_blank">40+ AI Assistant 統計</a></div></div></div>
-
-<div class="topic-card" id="t10"><div class="tc-header" onclick="this.parentElement.classList.toggle('open')"><span class="tc-rank">10</span><div class="tc-body"><div class="tc-title">YouTube 打壓 AI 無臉頻道 — 去貨幣化低品質內容</div><div class="tc-sub">83% 創作者用 AI，平台區分「AI 輔助」與「AI 農場」</div><div class="tc-meta"><span class="pb pb-yt">YT</span><span class="pb pb-reddit">Reddit</span><span class="pb pb-threads">Threads</span><span class="badge b-mid">中度</span><span class="tc-heat">🔥🔥🔥</span><span class="tc-toggle-btn">展開摘要</span></div></div></div><div class="tc-expand"><div class="tc-summary-text">3/2 起 YouTube 加大去貨幣化全自動 AI 無臉頻道。明確區分「AI 輔助創作」與「AI 農場」。<br><br><strong>市場意義：</strong>「用 AI 做好內容」歡迎，「AI 批量灌水」淘汰。AI-augmented creation 是護城河。</div><div class="tc-sources"><div class="tc-sources-title">來源文章 & 討論串</div><a href="https://shotstack.io/learn/best-ai-tools-for-youtube-automation/" target="_blank">Best AI YouTube Tools</a><a href="https://www.revid.ai/blog/youtube-automation" target="_blank">YouTube Automation 2026</a></div></div></div>
-
-<div class="topic-card" id="t11"><div class="tc-header" onclick="this.parentElement.classList.toggle('open')"><span class="tc-rank">11</span><div class="tc-body"><div class="tc-title">Agentic Workflow 設計模式 — Andrew Ng 倡議「迭代式 Agent」</div><div class="tc-sub">Agent 反覆改進 > zero-shot prompting</div><div class="tc-meta"><span class="pb pb-li">LinkedIn</span><span class="pb pb-reddit">Reddit</span><span class="badge b-deep">深度</span><span class="tc-heat">🔥🔥🔥</span><span class="tc-toggle-btn">展開摘要</span></div></div></div><div class="tc-expand"><div class="tc-summary-text">Andrew Ng 推動 Agentic Workflow：AI Agent 反覆迭代改進產出，顯著超越 zero-shot prompting。<br><br><strong>市場意義：</strong>這是從「淺層使用」跨向「深度開發」的分水嶺。理解此概念的人正從「使用者」進化為「架構師」。</div><div class="tc-sources"><div class="tc-sources-title">來源文章 & 討論串</div><a href="https://www.linkedin.com/pulse/10-ai-machine-learning-trends-watch-cjxcc" target="_blank">10 AI Trends 2026</a><a href="https://www.linkedin.com/pulse/8-biggest-ai-trends-2026-everyone-must-ready-now-bernard-marr-ofefe" target="_blank">Bernard Marr: 8 Biggest Trends</a></div></div></div>
-
-<div class="topic-card" id="t12"><div class="tc-header" onclick="this.parentElement.classList.toggle('open')"><span class="tc-rank">12</span><div class="tc-body"><div class="tc-title">Google Gemini 匯入 ChatGPT / Claude 對話紀錄</div><div class="tc-sub">降低遷移成本，資料可攜性成為競爭武器</div><div class="tc-meta"><span class="pb pb-x">X</span><span class="pb pb-reddit">Reddit</span><span class="badge b-mid">中度</span><span class="tc-heat">🔥🔥</span><span class="tc-toggle-btn">展開摘要</span></div></div></div><div class="tc-expand"><div class="tc-summary-text">Gemini 可匯入 ChatGPT/Claude 歷史對話，降低遷移成本。<br><br><strong>市場意義：</strong>護城河不在「鎖定」，而在「持續更好的體驗」。</div><div class="tc-sources"><div class="tc-sources-title">來源文章 & 討論串</div><a href="https://www.crescendo.ai/news/latest-ai-news-and-updates" target="_blank">Crescendo AI News</a></div></div></div>
-
-<div class="topic-card" id="t13"><div class="tc-header" onclick="this.parentElement.classList.toggle('open')"><span class="tc-rank">13</span><div class="tc-body"><div class="tc-title">AI 新秀專班爆紅 — 全額補助 + 20 萬學習金</div><div class="tc-sub">金融科技與資安班，Dcard 報名討論持續延燒</div><div class="tc-meta"><span class="pb pb-dcard">Dcard</span><span class="pb pb-fb">FB</span><span class="badge b-shallow">淺層</span><span class="tc-heat">🔥🔥</span><span class="tc-toggle-btn">展開摘要</span></div></div></div><div class="tc-expand"><div class="tc-summary-text">政府補助 AI 新秀專班火熱——全額學費 + 20 萬津貼，報名多次延長。<br><br><strong>市場意義：</strong>台灣 AI 人才「供不應求」。從「會用 ChatGPT」到「會開發 AI 應用」的路徑不清楚。</div><div class="tc-sources"><div class="tc-sources-title">來源文章 & 討論串</div><a href="https://www.dcard.tw/f/graduate_school/p/260741994" target="_blank">Dcard: AI 新秀專班</a><a href="https://www.dcard.tw/f/ntu/p/260869158" target="_blank">Dcard 台大: AI 學習論壇</a></div></div></div>
-
-<div class="topic-card" id="t14"><div class="tc-header" onclick="this.parentElement.classList.toggle('open')"><span class="tc-rank">14</span><div class="tc-body"><div class="tc-title">ElevenLabs 語音合成突破「機器人感」</div><div class="tc-sub">模擬呼吸、語調、情感，與專業配音員幾乎無法區分</div><div class="tc-meta"><span class="pb pb-yt">YT</span><span class="pb pb-x">X</span><span class="badge b-mid">中度</span><span class="tc-heat">🔥🔥</span><span class="tc-toggle-btn">展開摘要</span></div></div></div><div class="tc-expand"><div class="tc-summary-text">ElevenLabs 可模擬呼吸聲、語調、情感，YouTube 創作者大量採用。<br><br><strong>市場意義：</strong>降低影片製作門檻，推動「一人製片」，但加速內容同質化。</div><div class="tc-sources"><div class="tc-sources-title">來源文章 & 討論串</div><a href="https://www.foximusic.com/ai-agents-for-youtubers-automate-your-channel/" target="_blank">AI Agents for YouTubers</a></div></div></div>
-
-<div class="topic-card" id="t15"><div class="tc-header" onclick="this.parentElement.classList.toggle('open')"><span class="tc-rank">15</span><div class="tc-body"><div class="tc-title">Google Lyria 3 Pro — AI 音樂生成 3 分鐘完整曲目</div><div class="tc-sub">支援授權聲明，解決版權灰色地帶</div><div class="tc-meta"><span class="pb pb-x">X</span><span class="pb pb-yt">YT</span><span class="badge b-mid">中度</span><span class="tc-heat">🔥🔥</span><span class="tc-toggle-btn">展開摘要</span></div></div></div><div class="tc-expand"><div class="tc-summary-text">Google Lyria 3 Pro 可產 3 分鐘完整曲目且支援 licensing claim。<br><br><strong>市場意義：</strong>「版權可追溯」改變規則，為 AI 輔助影音製作補上最後一塊拼圖。</div><div class="tc-sources"><div class="tc-sources-title">來源文章 & 討論串</div><a href="https://www.crescendo.ai/news/latest-ai-news-and-updates" target="_blank">Crescendo AI News</a></div></div></div>
-
-</div>
-
-<!-- ─── Section 3: 深度分析 ─── -->
-<h2 class="section-title">3. 深度 vs 淺層應用分析 <span class="info-tip">i<span class="tip-content"><span class="tip-label">分類方法</span>依討論內容技術關鍵字分類。深度=API/Agent/RAG/MCP/微調；中度=Prompt 設計/No-code/工具比較；淺層=ChatGPT 對話/翻譯/摘要。<span class="tip-src">來源：WebSearch + <a href="https://www.netguru.com/blog/ai-adoption-statistics" target="_blank">Netguru</a></span></span></span></h2>
-<div class="grid g3" style="margin-bottom:20px">
-  <div class="card"><h3>社群討論深度分布 <span class="info-tip">i<span class="tip-content"><span class="tip-label">計算</span>TOP 15 話題按深度標籤 × 熱度權重加權統計。<span class="tip-src">來源：本報告分類結果</span></span></span></h3><div class="chart-w"><canvas id="cDepth"></canvas></div></div>
-  <div class="card"><h3>開發者 AI 使用深度 <span class="info-tip">i<span class="tip-content"><span class="tip-label">計算</span>Agent 深度 10%=真正投產比例。基礎工具 52%=Stack Overflow 調查。不使用 38%=無計畫採用。<span class="tip-src">來源：<a href="https://www.getpanto.ai/blog/ai-coding-assistant-statistics" target="_blank">AI Coding Stats</a></span></span></span></h3><div class="chart-w"><canvas id="cDev"></canvas></div></div>
-  <div class="card"><h3>企業 Agent 成熟度 <span class="info-tip">i<span class="tip-content"><span class="tip-label">計算</span>投產 11%、POC 31%、計畫中 37%、未採用 21%。<span class="tip-src">來源：<a href="https://www.salesmate.io/blog/ai-agents-adoption-statistics/" target="_blank">Salesmate</a></span></span></span></h3><div class="chart-w"><canvas id="cEnt"></canvas></div></div>
-</div>
-<div class="grid g2" style="margin-bottom:28px">
-  <div class="card">
-    <h3>深度 / 中度 / 淺層定義</h3>
-    <table><thead><tr><th>分類</th><th>定義</th><th>代表關鍵字</th></tr></thead><tbody>
-      <tr><td><span class="badge b-deep">深度</span></td><td>可開發應用、建構自動化、部署至生產</td><td>API, Agent, RAG, MCP, 微調, CI/CD</td></tr>
-      <tr><td><span class="badge b-mid">中度</span></td><td>進階功能但不涉及開發</td><td>Prompt 設計, No-code, 工具串接</td></tr>
-      <tr><td><span class="badge b-shallow">淺層</span></td><td>單次對話、基礎功能</td><td>ChatGPT 聊天, 翻譯, 摘要, 圖片生成</td></tr>
-    </tbody></table>
+  <!-- SECTION: TODAY'S INSIGHTS -->
+  <div class="section-header" style="margin-bottom:16px;">
+    <div class="section-title"><span class="icon">💡</span> 今日洞察</div>
+    <span style="font-size:12px;color:var(--gray-400);">基於 9 平台即時貼情分析</span>
   </div>
-  <div class="card"><h3>各平台應用深度偏好 <span class="info-tip">i<span class="tip-content"><span class="tip-label">計算</span>依各平台 AI 帖文技術關鍵字頻率估算。<span class="tip-src">來源：各平台 WebSearch 交叉比對</span></span></span></h3><div class="chart-w"><canvas id="cStack"></canvas></div></div>
+  <div class="insights-grid">
+    <div class="insight-card purple">
+      <div class="insight-num">洞察 01 · 技術突破</div>
+      <div class="insight-title">AI代理正式超越人類桌面操作基準</div>
+      <div class="insight-body">OpenAI GPT-5.4 在 OSWorld-V 桌面任務基準測試中以 75% 的得分超越人類基準 72.4%，標誌著 AI 從「對話工具」正式進入「自主數位工作者」時代。這一突破意義深遠——企業現在可以讓 AI 代理直接操作電腦完成複雜多步驟工作流程，無需額外開發基礎設施。</div>
+    </div>
+    <div class="insight-card teal">
+      <div class="insight-num">洞察 02 · 協議標準化</div>
+      <div class="insight-title">MCP 正在成為 AI 整合的事實標準</div>
+      <div class="insight-body">2026 年被業界定義為「MCP 企業採用元年」。Anthropic 推出的 Model Context Protocol 已被 OpenAI、Google DeepMind、VS Code、Cursor 等主流平台採用，形成跨廠商的統一標準。這意味著開發者只需建立一次整合，即可接入所有主流 AI 系統，大幅降低 AI 應用的開發成本與碎片化問題。</div>
+    </div>
+    <div class="insight-card rose">
+      <div class="insight-num">洞察 03 · 市場格局</div>
+      <div class="insight-title">開源 LLM 已佔生產部署過半份額</div>
+      <div class="insight-body">2026 年，DeepSeek V3.2（671B MoE）與 Meta Llama 4（10M token 上下文）主導開源市場，超過半數的生產 LLM 部署已選用開源模型而非 GPT-5 或 Claude 等閉源 API。中國開源模型與西方版本的發佈週期差距持續縮短，從數月驟縮至數週，正在重塑全球 AI 供應鏈格局。</div>
+    </div>
+    <div class="insight-card amber">
+      <div class="insight-num">洞察 04 · 台灣視角</div>
+      <div class="insight-title">台灣 AI 戰略轉向電力與散熱基礎設施</div>
+      <div class="insight-body">台灣 AI 產業討論已從模型與軟體轉向物理基礎設施。2026 年決勝點在於「電從哪來、熱往哪去」——高壓直流電（HVDC）、液冷技術成為供應鏈新焦點。長興化工、南寶樹脂等傳統產業因地緣政治與技術需求找到新舞台。台灣在 AI 算力擴張浪潮中的定位正從晶片生產擴展至完整基礎設施。</div>
+    </div>
+  </div>
+
+  <!-- KPI CARDS -->
+  <div class="section-header" style="margin-bottom:16px;">
+    <div class="section-title"><span class="icon">📊</span> 今日 AI 聲量 KPI</div>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label">監測平台數</div>
+      <div class="kpi-value">9</div>
+      <div class="kpi-sub">X · Reddit · PTT · Dcard · FB · YT · LinkedIn · Threads · IG</div>
+      <div class="kpi-badge neutral">全平台覆蓋</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">熱門話題數</div>
+      <div class="kpi-value">15</div>
+      <div class="kpi-sub">含深度分析 + 來源連結</div>
+      <div class="kpi-badge up">↑ 3 vs 昨日</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">深度應用佔比</div>
+      <div class="kpi-value">22%</div>
+      <div class="kpi-sub">API / Agent / RAG / MCP / 自動化</div>
+      <div class="kpi-badge up">↑ 2% vs 昨日</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">主力焦點模型</div>
+      <div class="kpi-value" style="font-size:18px;">GPT-5.4</div>
+      <div class="kpi-sub">OpenAI · 自主代理突破</div>
+      <div class="kpi-badge up">熱度最高</div>
+    </div>
+  </div>
+
+  <!-- CHARTS ROW -->
+  <div class="section-header" style="margin-bottom:16px;">
+    <div class="section-title"><span class="icon">📈</span> 平台 AI 佔比分析</div>
+    <div class="info-tip">
+      <span style="font-size:12px;color:var(--gray-400);">計算說明</span>
+      <span class="tip-icon">i</span>
+      <span class="tip-text">平台AI佔比 = 搜尋結果中AI相關討論/總討論抽樣×100%。數據基於關鍵字搜尋結果密度估算，非API真實數據。</span>
+    </div>
+  </div>
+  <div class="charts-grid">
+    <div class="chart-card">
+      <div class="chart-title">各平台 AI 討論佔比 (%)</div>
+      <div class="chart-sub">估算各平台今日 AI 相關討論佔總內容比例</div>
+      <div class="chart-wrap"><canvas id="platformChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">應用深度分布</div>
+      <div class="chart-sub">深度 / 中度 / 淺層應用各自佔比</div>
+      <div class="chart-wrap"><canvas id="depthChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- TOPIC LIST -->
+  <div class="section-header" style="margin-bottom:16px;">
+    <div class="section-title"><span class="icon">🔥</span> TOP 15 熱門話題</div>
+    <span style="font-size:12px;color:var(--gray-400);">點擊展開 AI 摘要與來源</span>
+  </div>
+  <div class="topics-list">
+
+    <!-- 01 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank hot">01</div>
+        <div class="topic-name">GPT-5.4 自主代理突破人類桌面操作基準</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">X</span><span class="platform-tag">Reddit</span><span class="platform-tag">LinkedIn</span></div>
+          <span class="depth-chip deep">深度</span>
+          <span class="fire">🔥🔥🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">OpenAI 發布 GPT-5.4，在模擬真實桌面生產力任務的 OSWorld-V 基準測試中取得 75% 得分，正式超越人類基準 72.4%。這是 AI 歷史上的關鍵轉折點——模型不僅能對話、推理，還能自主操作電腦、跨應用執行多步驟工作流程，且無需開發者額外建置基礎設施。配備 100 萬 token 上下文窗口，讓 AI 代理可在更長的任務序列中規劃、執行與驗證。對企業的市場意義在於：「AI 同事」正從概念走向實際可用的生產工具，重新定義知識工作者的角色分工。預期 2026 年第二季將有大量企業開始評估「以 AI 代理取代部分人工流程」的 ROI。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://openai.com/index/introducing-gpt-5-4/" target="_blank">Introducing GPT-5.4 | OpenAI 官方公告</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://fortune.com/2026/03/05/openai-new-model-gpt5-4-enterprise-agentic-anthropic/" target="_blank">OpenAI launches GPT-5.4 for enterprise work | Fortune</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.abaka.ai/blog/gpt-5-4-desktop-automation-breakthrough" target="_blank">GPT-5.4 Beats Humans at Desktop Tasks | Abaka AI</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank hot">02</div>
+        <div class="topic-name">MCP 企業採用元年：AI 整合標準化加速</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">Reddit</span><span class="platform-tag">LinkedIn</span><span class="platform-tag">DEV</span></div>
+          <span class="depth-chip deep">深度</span>
+          <span class="fire">🔥🔥🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">2026 年業界普遍將其定義為「MCP 企業採用元年」。Anthropic 於 2024 年 11 月推出的 Model Context Protocol 已成為 AI 整合的事實標準——OpenAI、Google DeepMind、VS Code、Cursor、Replit、Sourcegraph 等均已支援。開發者現在只需「建立一次，接入所有」，徹底解決了 AI 工具整合碎片化的問題。對中小型開發團隊而言，MCP 大幅降低了建構 AI Agent 的門檻；對企業而言，標準化意味著更好的治理與合規。CData、The New Stack 等媒體指出，MCP 的 2026 路線圖將聚焦於解決生產環境中的效能與安全性痛點。這是繼 REST API 之後，AI 時代最重要的整合協議標準化進程。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.cdata.com/blog/2026-year-enterprise-ready-mcp-adoption" target="_blank">2026: The Year for Enterprise-Ready MCP Adoption | CData</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://dev.to/universe7creator/the-complete-guide-to-model-context-protocol-mcp-building-ai-native-applications-in-2026-5e57" target="_blank">Complete Guide to MCP in 2026 | DEV Community</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://thenewstack.io/model-context-protocol-roadmap-2026/" target="_blank">MCP Roadmap 2026 | The New Stack</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank hot">03</div>
+        <div class="topic-name">Anthropic Claude 訂閱用戶翻倍，AI 助理市場三足鼎立</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">X</span><span class="platform-tag">LinkedIn</span></div>
+          <span class="depth-chip medium">中度</span>
+          <span class="fire">🔥🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">Anthropic 的 Claude 付費訂閱用戶在 2026 年成長超過一倍，公司年化收入接近 190 億美元，與 OpenAI 的 250 億美元差距正在縮小。Anthropic 同步推出 Claude Sonnet 4.6 與 Opus 4.6，並在測試版提供 100 萬 token 的超長上下文窗口。2026 年的 AI 助理市場已形成明顯三足鼎立格局：ChatGPT 以普及率稱霸、Gemini 靠 Google 生態滲透企業、Claude 則以「複雜推理與安全性」吸引高端付費用戶。市場意義在於：AI 助理已進入「差異化競爭」而非純粹的技術比拼，品牌定位與使用場景日益重要。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.techbuzz.ai/articles/claude-paid-subscriptions-double-as-anthropic-gains-ground" target="_blank">Claude Paid Subscriptions Double | TechBuzz AI</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://teamai.com/blog/uncategorized/claude-vs-chatgpt-vs-gemini-in-2026-giants-challengers-and-the-ai-odel-showdown/" target="_blank">Claude vs ChatGPT vs Gemini 2026 Showdown | TeamAI</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.crescendo.ai/news/latest-ai-news-and-updates" target="_blank">Latest AI News 2026 | Crescendo AI</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank hot">04</div>
+        <div class="topic-name">Cursor vs GitHub Copilot：AI 編程工具 360 億美元估值大戰</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">Reddit</span><span class="platform-tag">X</span><span class="platform-tag">LinkedIn</span></div>
+          <span class="depth-chip deep">深度</span>
+          <span class="fire">🔥🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">Cursor 由四位 MIT 畢業生創立，在不到 24 個月內年化收入突破 10 億美元，估值達 293 億美元。GitHub Copilot 則已累積超過 2000 萬用戶，進入全球 90% 的財富百強企業。兩者代表不同的 AI 編程哲學：Copilot 像「快速自動補全」，Cursor 像「在編輯器內的智慧協作者」，而 Claude Code 則像「把任務交給同事讓他完成」。2026 年的開發者調查顯示，65% 的開發者定期使用 AI 編程工具，但實際生產力提升相對務實——約 20-30% 的效率增長集中在特定工作流程，而非行銷宣傳中的「10倍速」。這場競爭正在加速兩者的功能創新，最終受益者是全球開發者社群。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://digidai.github.io/2026/02/08/cursor-vs-github-copilot-ai-coding-tools-deep-comparison/" target="_blank">Cursor vs GitHub Copilot: $36B War for the Future | DigiDai</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.digitalocean.com/resources/articles/github-copilot-vs-cursor" target="_blank">GitHub Copilot vs Cursor Review 2026 | DigitalOcean</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.adventureppc.com/blog/claude-code-vs-cursor-vs-github-copilot-the-definitive-ai-coding-tool-comparison-for-2026" target="_blank">Claude Code vs Cursor vs Copilot 2026 | AdventurePPC</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank">05</div>
+        <div class="topic-name">ChatGPT Health 整合醫療記錄：AI 進入個人健康管理</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">X</span><span class="platform-tag">Reddit</span><span class="platform-tag">YouTube</span></div>
+          <span class="depth-chip shallow">淺層</span>
+          <span class="fire">🔥🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">2026 年 1 月 7 日，OpenAI 推出 ChatGPT Health，允許用戶連結電子病歷、Apple Health 及 MyFitnessPal、Peloton 等健康應用，在 AI 對話中獲得基於個人健康數據的洞察。這不是診斷工具，而是協助用戶「更主動理解並管理自身健康」的個人健康顧問。Privacy 爭議隨即爆發——批評者指出將完整醫療記錄交給 OpenAI 存在風險，而 OpenAI 聲稱健康對話數據不用於訓練模型並使用專屬加密機制。市場意義：AI 醫療入口正在從 B2B 醫院系統轉向直接面向消費者的 C 端應用，預計將引發更多監管關注與競爭跟進。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://openai.com/index/introducing-chatgpt-health/" target="_blank">Introducing ChatGPT Health | OpenAI 官方</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.cnbc.com/2026/01/07/openai-chatgpt-health-medical-records.html" target="_blank">OpenAI launches ChatGPT Health | CNBC</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://time.com/7344997/chatgpt-health-medical-records-privacy-open-ai/" target="_blank">Is Giving ChatGPT Health Your Medical Records a Good Idea? | TIME</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 06 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank">06</div>
+        <div class="topic-name">開源 LLM 大戰：DeepSeek V3.2 vs Llama 4 正面對決</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">Reddit</span><span class="platform-tag">YouTube</span><span class="platform-tag">X</span></div>
+          <span class="depth-chip deep">深度</span>
+          <span class="fire">🔥🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">2026 年開源 LLM 市場由 DeepSeek V3.2（671B MoE 架構，MIT 授權）與 Meta Llama 4（1000 萬 token 超長上下文）共同主導。DeepSeek 採用混合專家架構，每個 token 僅啟動 370 億參數，在維持超大模型規模的同時控制計算成本。Llama 4 的 1000 萬 token 上下文讓其在長文件、長期記憶與複雜 Agent 任務中具有獨特優勢。最關鍵的市場信號：超過 50% 的企業生產 LLM 部署已轉向開源模型，意味著閉源 API 的定價模式面臨結構性挑戰。中美開源模型的發佈週期差距從數月縮短至數週，地緣政治角力正在 AI 技術層面加速演繹。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://o-mega.ai/articles/top-10-open-source-llms-the-deepseek-revolution-2026" target="_blank">Top 10 Open Source LLMs 2026: DeepSeek Revolution | o-mega.ai</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://aitoolranked.com/blog/best-open-source-llm-2026-llama-deepseek-qwen-comparison" target="_blank">Best Open Source LLM 2026 Comparison | AIToolRanked</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://scopir.com/posts/best-open-source-llms-2026/" target="_blank">DeepSeek vs Llama vs Gemma 2026 | Scopir</a></div>
+        </div>
+      </div>
+    </div>or-youtube-content-creators" target="_blank">8 Best AI Video Tools for YouTube Creators 2026 | DomoAI</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://posteverywhere.ai/blog/25-best-ai-tools-for-youtube" target="_blank">25 Best AI Tools for YouTube 2026 | PostEverywhere</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://shotstack.io/learn/best-ai-tools-for-youtube-automation/" target="_blank">8 Best AI Tools for YouTube Automation | Shotstack</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank">10</div>
+        <div class="topic-name">NASA 火星車隊 Claude AI 規劃行進路線，28 年人工任務首度 AI 化</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">X</span><span class="platform-tag">Reddit</span></div>
+          <span class="depth-chip medium">中度</span>
+          <span class="fire">🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">NASA 毅力號火星車完成了首批隊 Anthropic Claude 視覺語言模型規劃的火星行飛任務，取代了人類手動執行長達 28 年的複雜規劃工作。Claude 透過分析地形圖像、評估路線風險並生成可執行的移動指令，讓科學家能聚焦於更高層次的探索決策。這不僅是 AI 在太空科學領域的里程碑應用，更象徵 AI 在「高風險、低容錯」任務中的可靠性已達到人類替代的閾值。對地球產業的市場意義：若 AI 能在火星任務中承擔關鍵規劃，其在地球製造、物流與基礎設施維護中的「自主決策」潛在值得全面重新評估。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.crescendo.ai/news/latest-ai-news-and-updates" target="_blank">NASA Mars Rover AI Planning | Crescendo AI News</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.startuphub.ai/ai-news/artificial-intelligence/2026/ai-models-chatgpt-claude-gemini-and-beyond" target="_blank">AI Models 2026 Developments | StartupHub AI</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 11 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank">11</div>
+        <div class="topic-name">LinkedIn 成 AI 搜尋最常引用來源，專業內容價值急升</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">LinkedIn</span><span class="platform-tag">X</span></div>
+          <span class="depth-chip shallow">淺層</span>
+          <span class="fire">🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">2026 年 3 月，Axios 報導 LinkedIn 已成為 ChatGPT 等 AI 聊天機器人引用的第一大來源域名，引用頻次自 2025 年 11 月起翻倍。LinkedIn 的貼文、長文與電子報佔 ChatGPT 所有 LinkedIn 引用的 35%。這一趨勢對內容創作者和行銷人員的意義深遠：在 AI 搜尋時代，在 LinkedIn 上定期發佈高質量專業內容的個人和品牌，正在獲得遠超傳統 SEO 的「AI 搜尋可見度」。平台策略師建議企業將 LinkedIn 的思想領袖內容納入 AI 時代的「搜尋可見性」策略核心。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.axios.com/2026/03/10/linkedin-chatgpt-ai-chatbot-answers" target="_blank">LinkedIn becomes top source for ChatGPT answers | Axios</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://metricool.com/linkedin-trends/" target="_blank">2026 LinkedIn Trends: Content Formats | Metricool</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank">12</div>
+        <div class="topic-name">PTT 熱討：AI 取代工作的話題達到新高潮</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">PTT</span></div>
+          <span class="depth-chip shallow">淺層</span>
+          <span class="fire">🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">PTT Soft_Job、Stock 等看板的 AI 取代就業討論在 2026 年持續升溫。討論焦點已從「AI 會不會取代人類」轉向「哪些職位已被取代、薪資如何調整、如何轉型」的具體策略層次。PTT 用戶的普遍焦慮集中在：軟體開發初階職位因 AI 編程助理的普及而需求下降；白領辦公室工作因 AI Agent 的崛起面臨員縮。樂觀討論者則分享如何透過「使用 AI 工具倍增產能」來在職場保持競爭力。從媒體熱度觀察，此議題的長期存在顯示台灣勞工社群對 AI 影響的焦慮程度持續高於全球平均。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.ptt.cc/bbs/Soft_Job/M.1763522645.A.A80.html" target="_blank">[討論] 說 AI 不會取代的可以閉嘴了 | PTT Soft_Job</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.ptt.cc/bbs/Soft_Job/M.1722498571.A.51F.html" target="_blank">[討論] 太依賴AI去工作是不是不太好？| PTT Soft_Job</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 13 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank">13</div>
+        <div class="topic-name">Perplexity AI 成學術研究首選，引發學術誠信爭議</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">Reddit</span><span class="platform-tag">LinkedIn</span></div>
+          <span class="depth-chip medium">中度</span>
+          <span class="fire">🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">Perplexity AI 在 Reddit 的 r/PhD、r/GradSchool、r/academia 等學術社群中迅速成為首選研究工具，用戶讚譽其「附引用來源的即時網路搜尋能力」讓研究工作效率大幅提升。然而，學術機構的擔憂也隨之而來：學生過度依賴 Perplexity 提供的引用摘要，可能導致「選擇性理解」或「不知原始論文」的學術行為退化。部分大學開始修訂 AI 使用政策，明確區分「AI 輔助研究」與「AI 替代思考」的界線。市場意義：Perplexity 模式——即「具備引用機制的 AI 搜尋」——正在重新定義資訊獲取的方式，對傳統搜尋引擎（Google）和學術資料庫（JSTOR、Web of Science）構成結構性威脅。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.aitooldiscovery.com/guides/best-ai-for-research-reddit" target="_blank">Best AI for Research: Reddit's Top Picks 2026 | AIToolDiscovery</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://aitoolscoutai.com/best-ai-subreddits-2026-guide/" target="_blank">Best AI Subreddits 2026 | AI Tool Scout</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 14 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank">14</div>
+        <div class="topic-name">Dcard AI 生成文章品質爭議：「真實性」成平台存亡關鍵</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">Dcard</span><span class="platform-tag">X</span></div>
+          <span class="depth-chip shallow">淺層</span>
+          <span class="fire">🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">Dcard 正面臨一個 2026 年社群平台普遍面臨的困境：AI 生成文章大量湧入，語氣生硬、結構雷同，缺乏人類情感與獨特觀點。用戶開始抱怨「平台從情感交流的樹洞，變成了大型個人廣告看板」。Dcard 推動的「創作者計畫」個人 IP 化轉型，雖然初衷是提升內容品質，卻可能進一步加劇「表演式分享」而非真實交流的趨勢。根據口碑行銷 2026 趨勢白皮書，在 AI 時代「真實性」已成為品牌和平台最重要的護城河。市場意義：判別 AI 生成內容、維護社群真實性將成為 2026 年所有 UGC 平台的核心治理挑戰，也將催生「AI 內容偵測」相關工具的商機。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://vocus.cc/article/69c5f955fd89780001db189b" target="_blank">Dcard 流量下滑的觀察：AI文、創作者枯竭 | 方格子</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://enterimc.com/2026-%E5%8F%A3%E7%A2%91%E8%A1%8C%E9%8A%B7%E8%B6%A8%E5%8B%A2%E7%99%BD%E7%9A%AE%E6%9B%B8" target="_blank">2026口碑行銷趨勢白皮書 | 確認鍵行銷</a></div>
+        </div>
+      </div>
+    </div>勢白皮書：真實性 | 確認鍵行銷</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 15 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank">15</div>
+        <div class="topic-name">技術圈迎 AI 聖杯時刻：多模態推理達成「通用」邊界</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">X</span><span class="platform-tag">Reddit</span><span class="platform-tag">YouTube</span></div>
+          <span class="depth-chip deep">深度</span>
+          <span class="fire">🔥🔥🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">2026 年 3 月，多位 AI 研究者在論文與討論中達成共識：AI 正在達成「通用多模態推理」的邊界。GPT-5.4、Gemini 2.0 Ultra、Claude 4 等模型已不再侷限於「語言工具」，而是能流暢地在文字、圖像、影片、音頻、3D 場景之間進行推理。特別是在零樣本學習與遷移學習中，AI 表現超越人類基準。這標誌著 AI 從「單一模式擅長者」向「跨模式通才」的關鍵轉折。技術圈將此稱為「AI 的寒武紀爆炸時刻」——不同應用場景在統一基礎模型上爆發出多樣化創新。市場意義：通用多模態 AI 將打破傳統垂直應用的邊界，催生全新的商業邏輯——從「特定工具」轉向「智慧個人助理」的範式轉移。預期未來 12 個月內，大型企業的「AI 中台」投資將爆發性增長。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://arxiv.org/list/cs.AI/recent" target="_blank">Latest AI Research Papers 2026 | arXiv</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://technewstoday.ai/multimodal-ai-2026-era-of-intelligence-convergence/" target="_blank">Multimodal AI 2026: The Era of Intelligence Convergence | TechNews Today</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.reddit.com/r/machinelearning/" target="_blank">ML Community Discussion | r/machinelearning</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEPTH SECTION -->
+  <div class="section-header" style="margin-bottom:16px;">
+    <div class="section-title"><span class="icon">📊</span> 應用深度分布</div>
+    <span style="font-size:12px;color:var(--gray-400);">AI 討論依照應用複雜度分層統計</span>
+  </div>
+  <div class="depth-section">
+    <div class="depth-row">
+      <div class="depth-label">深度應用</div>
+      <div class="depth-bar-wrap"><div class="depth-bar deep" style="width:0%"></div></div>
+      <div class="depth-pct">22%</div>
+      <div class="depth-tags"><span class="depth-tag deep">Agent</span><span class="depth-tag deep">RAG</span><span class="depth-tag deep">API</span></div>
+    </div>
+    <div class="depth-row">
+      <div class="depth-label">中度應用</div>
+      <div class="depth-bar-wrap"><div class="depth-bar medium" style="width:0%"></div></div>
+      <div class="depth-pct">38%</div>
+      <div class="depth-tags"><span class="depth-tag medium">Fine-tune</span><span class="depth-tag medium">Prompt Engineering</span></div>
+    </div>
+    <div class="depth-row">
+      <div class="depth-label">淺層使用</div>
+      <div class="depth-bar-wrap"><div class="depth-bar shallow" style="width:0%"></div></div>
+      <div class="depth-pct">40%</div>
+      <div class="depth-tags"><span class="depth-tag shallow">Chatbot</span><span class="depth-tag shallow">內容生成</span></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+</div>
 </div>
 
-<!-- ─── Section 4: 量體 ─── -->
-<h2 class="section-title">4. AI 開發量體估算</h2>
-<div class="card" style="margin-bottom:28px">
-  <table><thead><tr><th>指標</th><th>數據</th><th>來源 / 說明</th></tr></thead><tbody>
-    <tr><td>全球 AI 工具使用者</td><td><strong>10 億+</strong></td><td><a href="https://www.meltwater.com/en/about/press-releases/digital-2026-internet-users-pass-6-billion-social-media-users-become-supermajority-and-ai-use-tops-1-billion" target="_blank" style="color:var(--primary-600)">Meltwater Digital 2026</a></td></tr>
-    <tr><td>開發者使用 AI 工具比例</td><td><strong>84%</strong></td><td><a href="https://www.getpanto.ai/blog/ai-coding-assistant-statistics" target="_blank" style="color:var(--primary-600)">Stack Overflow / Panto</a></td></tr>
-    <tr><td>每日使用 AI 的開發者</td><td><strong>51%</strong></td><td><a href="https://www.index.dev/blog/ai-assistant-statistics" target="_blank" style="color:var(--primary-600)">Index.dev（省 ~3.6hr/週）</a></td></tr>
-    <tr><td>AI 生成程式碼比例</td><td><strong>41%</strong></td><td><a href="https://www.netcorpsoftwaredevelopment.com/blog/ai-generated-code-statistics" target="_blank" style="color:var(--primary-600)">NetCorp（75% 需人工審核）</a></td></tr>
-    <tr><td>AI Agent 企業導入率</td><td><strong>42%</strong></td><td><a href="https://www.salesmate.io/blog/ai-agents-adoption-statistics/" target="_blank" style="color:var(--primary-600)">Salesmate（僅 11% 投產）</a></td></tr>
-    <tr><td>AI Agent 市場規模</td><td><strong>$10.9B → $183B</strong></td><td><a href="https://www.demandsage.com/ai-agents-statistics/" target="_blank" style="color:var(--primary-600)">DemandSage（CAGR 49.6%）</a></td></tr>
-    <tr><td>MCP 月下載量</td><td><strong>9,700 萬</strong></td><td><a href="https://www.digitalapplied.com/blog/mcp-97-million-downloads-model-context-protocol-mainstream" target="_blank" style="color:var(--primary-600)">Digital Applied（+4750%）</a></td></tr>
-    <tr><td>LinkedIn AI 長文比例</td><td><strong>54%</strong></td><td><a href="https://infludata.com/blog/ai-social-media-trends-and-developments-2026" target="_blank" style="color:var(--primary-600)">Infludata 2026</a></td></tr>
-    <tr><td>社群 AI 圖片比例</td><td><strong>71%</strong></td><td><a href="https://sqmagazine.co.uk/ai-in-social-media-tools-statistics/" target="_blank" style="color:var(--primary-600)">SQ Magazine 2026</a></td></tr>
-  </tbody></table>
+<!-- WEEKLY PAGE -->
+<div id="page-weekly" class="page">
+<div class="container">
+  <div class="weekly-empty">
+    <div class="weekly-empty-icon">📅</div>
+    <div class="weekly-empty-title">每週彙整敬請期待</div>
+    <span style="font-size:13px;color:var(--gray-500);">此功能每週五 18:00 更新</span>
+  </div>
+</div>
 </div>
 
-<div class="footer">AI Pulse — 社群聲量 Dashboard — 由 Claude AI 自動搜索生成<br>涵蓋：X / Reddit / PTT / Dcard / Facebook / YouTube / LinkedIn / Threads / Instagram<br>凌晨 3:05 品質檢查 ｜ 每日 9:30 日報 ｜ 每週日 9:30 週報</div>
-</div><!-- end #daily -->
-
-
-<!-- ═══════ PAGE 2: 每週彙整 ═══════ -->
-<div id="weekly" class="page">
-<div class="week-header"><h2>每週 AI 社群聲量彙整</h2><p>2026 年 第 14 週（3/25 — 3/31）</p><p style="color:var(--gray-400);font-size:.875rem;margin-top:6px">* 每週日 9:30 自動生成</p></div>
-
-<div class="grid g4" style="margin:24px 0">
-  <div class="kpi"><div class="v">38%</div><div class="l">本週平均 AI 話題佔比</div><div class="d up">WoW +2%</div></div>
-  <div class="kpi"><div class="v">15</div><div class="l">不重複熱門話題數</div><div class="d">累計追蹤</div></div>
-  <div class="kpi"><div class="v">4/15</div><div class="l">深度應用話題佔比</div><div class="d">27%</div></div>
-  <div class="kpi"><div class="v">6/15</div><div class="l">中度應用話題佔比</div><div class="d">40%</div></div>
-</div>
-
-<h2 class="section-title">本週關鍵洞察</h2>
-<div class="insight"><h4>📌 Claude 登頂 App Store + OpenAI 國防合約爭議</h4><p>橫跨所有平台。品牌價值觀成為用戶選擇核心因素。Anthropic 因拒絕軍事應用反而贏得更多用戶。</p></div>
-<div class="insight"><h4>📌 效率模型 + Agent 基礎設施兩大主線</h4><p>Gemini Flash-Lite 代表效率戰；MCP 9,700 萬下載代表 Agent 標準化。便宜、快速、可接各種工具的 Agent 即將成主流。</p></div>
-<div class="insight"><h4>📌 AI slop 反噬 vs 真實性紅利</h4><p>YouTube 去貨幣化 AI 頻道，IG 承認真實性危機。「有人味」是 2026 內容創作最大護城河。</p></div>
-<div class="insight"><h4>📌 台灣：教學需求爆發，深度開發者稀缺</h4><p>AI 專班報名爆滿，但真正談 Agent 架構的極少。橋接淺層到深度的教學內容有巨大機會。</p></div>
-
-<h2 class="section-title">本週話題深度趨勢</h2>
-<div class="grid g2" style="margin-bottom:28px">
-  <div class="card"><h3>本週深度分布</h3><div class="chart-w"><canvas id="cWeekDepth"></canvas></div></div>
-  <div class="card"><h3>深度應用佔比趨勢</h3><div class="chart-w"><canvas id="cWeekTrend"></canvas></div></div>
-</div>
-
-<h2 class="section-title">本週 TOP 5 話題</h2>
-<div class="card" style="margin-bottom:28px">
-  <table><thead><tr><th>#</th><th>話題</th><th>天數</th><th>平台數</th><th>深度</th></tr></thead><tbody>
-    <tr><td>1</td><td>Claude 登頂 App Store</td><td>5</td><td>7</td><td><span class="badge b-shallow">淺層</span></td></tr>
-    <tr><td>2</td><td>Gemini 3.1 Flash-Lite</td><td>4</td><td>5</td><td><span class="badge b-mid">中度</span></td></tr>
-    <tr><td>3</td><td>MCP 9,700 萬下載</td><td>3</td><td>4</td><td><span class="badge b-deep">深度</span></td></tr>
-    <tr><td>4</td><td>AI Agent 企業導入</td><td>4</td><td>4</td><td><span class="badge b-deep">深度</span></td></tr>
-    <tr><td>5</td><td>AI 內容信任危機</td><td>7</td><td>6</td><td><span class="badge b-shallow">淺層</span></td></tr>
-  </tbody></table>
-</div>
-
-<h2 class="section-title">行動建議</h2>
-<div class="grid g2" style="margin-bottom:28px">
-  <div class="insight"><h4>💡 內容創作機會</h4><p>最大流量主題：「三大 AI 比較」。做深度實測影片兼顧淺層（哪個好用）和深度（API 差異），同時吃兩個市場。</p></div>
-  <div class="insight"><h4>💡 市場定位建議</h4><p>全球 84% 開發者接觸 AI，但深度開發者僅 ~10-18%。台灣更低。「AI 開發教育」和「Agent 落地服務」都是藍海。</p></div>
-</div>
-
-<div class="footer">AI Pulse 每週彙整<br>W14 / 2026-03-25 ~ 2026-03-31</div>
-</div><!-- end #weekly -->
-
-
-<!-- ═══════ SCRIPTS ═══════ -->
 <script>
-function showPage(id,btn){document.querySelectorAll('.page').forEach(p=>p.classList.remove('show'));document.getElementById(id).classList.add('show');document.querySelectorAll('.topbar nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active')}
-function selectDate(d,btn){document.querySelectorAll('.date-bar button:not(.arrow)').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');if(d!=='2026-03-31')alert('排程啟動後，此日期的報告將自動生成並填入。')}
-function shiftDate(){}
+// Data for platform chart
+const platformChartData = {
+  labels: ['X', 'Reddit', 'PTT', 'Dcard', 'FB', 'YT', 'LinkedIn', 'Threads', 'IG'],
+  datasets: [{
+    label: 'AI 討論佔比 (%)',
+    data: [24, 20, 16, 12, 8, 7, 6, 4, 3],
+    backgroundColor: [
+      '#7f56d9', '#2e90fa', '#15b79e', '#f63d68',
+      '#f79009', '#12b76a', '#7f56d9', '#f63d68', '#2e90fa'
+    ],
+  }]
+};
 
-/* ── Untitled UI chart palette ── */
-const P={purple:'#7f56d9',purpleL:'#d6bbfb',teal:'#15b79e',tealL:'#99f6e4',rose:'#f63d68',roseL:'#fda4af',amber:'#f79009',amberL:'#fde68a',blue:'#2e90fa',gray:'#98a2b3',grayL:'#eaecf0'};
-const cOpts=(legend=false)=>({responsive:true,maintainAspectRatio:false,plugins:{legend:{display:legend,position:'bottom',labels:{color:'#475467',padding:14,font:{size:11,family:'Inter'}}}}});
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Pulse 日報 — 2026/04/01</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --white: #fff;
+    --bg: #f9fafb;
+    --bg-alt: #f2f4f7;
+    --gray-25: #fcfcfd;
+    --gray-50: #f9fafb;
+    --gray-100: #f2f4f7;
+    --gray-200: #eaecf0;
+    --gray-300: #d0d5dd;
+    --gray-400: #98a2b3;
+    --gray-500: #667085;
+    --gray-600: #475467;
+    --gray-700: #344054;
+    --gray-800: #1d2939;
+    --gray-900: #101828;
+    --primary-50: #f4ebff;
+    --primary-500: #9e77ed;
+    --primary-600: #7f56d9;
+    --primary-700: #6941c6;
+    --primary-800: #53389e;
+    --success-50: #ecfdf3;
+    --success-500: #12b76a;
+    --success-700: #027a48;
+    --error-50: #fef3f2;
+    --error-500: #f04438;
+    --error-700: #b42318;
+    --warning-50: #fffaeb;
+    --warning-500: #f79009;
+    --warning-700: #b54708;
+    --teal-500: #15b79e;
+    --rose-500: #f63d68;
+    --blue-500: #2e90fa;
+    --shadow-xs: 0 1px 2px rgba(16,24,40,.05);
+    --shadow-sm: 0 1px 3px rgba(16,24,40,.1), 0 1px 2px rgba(16,24,40,.06);
+    --shadow-lg: 0 12px 16px -4px rgba(16,24,40,.08), 0 4px 6px -2px rgba(16,24,40,.03);
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--gray-900); font-size: 14px; line-height: 1.5; }
 
-new Chart(document.getElementById('cBar1'),{type:'bar',data:{labels:['LinkedIn','Reddit','X','YouTube','Dcard','FB','PTT','Threads/IG'],datasets:[{data:[54,47,42,39,33,31,28,22],backgroundColor:[P.blue+'cc',P.amber+'cc',P.blue+'99',P.rose+'cc','#0ea5e9cc',P.blue+'99',P.teal+'cc',P.rose+'99'],borderRadius:6,barThickness:30}]},options:{...cOpts(),scales:{y:{beginAtZero:true,max:70,ticks:{color:P.gray,callback:v=>v+'%',font:{family:'Inter'}},grid:{color:P.grayL}},x:{ticks:{color:'#475467',font:{size:10,family:'Inter'}},grid:{display:false}}}}});
+  /* NAV */
+  .top-bar { background: var(--white); border-bottom: 1px solid var(--gray-200); position: sticky; top: 0; z-index: 100; }
+  .top-bar-inner { max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 18px; color: var(--gray-900); }
+  .logo-icon { width: 32px; height: 32px; background: var(--primary-600); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: white; font-size: 16px; }
+  .nav-tabs { display: flex; gap: 4px; }
+  .nav-tab { padding: 8px 16px; border-radius: var(--radius-md); font-size: 14px; font-weight: 500; cursor: pointer; border: none; background: transparent; color: var(--gray-500); transition: all .15s; }
+  .nav-tab.active { background: var(--primary-50); color: var(--primary-700); }
+  .nav-tab:hover:not(.active) { background: var(--gray-100); color: var(--gray-700); }
+  .date-badge { display: flex; align-items: center; gap: 6px; padding: 6px 12px; background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: var(--radius-md); font-size: 13px; font-weight: 500; color: var(--gray-600); }
 
-new Chart(document.getElementById('cDepth'),{type:'doughnut',data:{labels:['深度 18%','中度 30%','淺層 52%'],datasets:[{data:[18,30,52],backgroundColor:[P.purple,P.teal,P.rose],borderWidth:2,borderColor:'#fff',hoverOffset:6}]},options:{...cOpts(true),cutout:'62%'}});
-new Chart(document.getElementById('cDev'),{type:'doughnut',data:{labels:['Agent 深度 10%','基礎工具 52%','不使用 38%'],datasets:[{data:[10,52,38],backgroundColor:[P.purple,P.amber,P.grayL],borderWidth:2,borderColor:'#fff',hoverOffset:6}]},options:{...cOpts(true),cutout:'62%'}});
-new Chart(document.getElementById('cEnt'),{type:'doughnut',data:{labels:['投產 11%','POC 31%','計畫中 37%','未採用 21%'],datasets:[{data:[11,31,37,21],backgroundColor:[P.teal,P.tealL,P.purpleL,P.grayL],borderWidth:2,borderColor:'#fff',hoverOffset:6}]},options:{...cOpts(true),cutout:'62%'}});
-new Chart(document.getElementById('cStack'),{type:'bar',data:{labels:['LinkedIn','Reddit','X','YouTube','Dcard','PTT','FB','Threads/IG'],datasets:[{label:'深度',data:[35,30,20,15,8,12,10,5],backgroundColor:P.purple},{label:'中度',data:[35,35,35,35,25,20,25,20],backgroundColor:P.teal},{label:'淺層',data:[30,35,45,50,67,68,65,75],backgroundColor:P.rose}]},options:{...cOpts(true),indexAxis:'y',scales:{x:{stacked:true,max:100,ticks:{color:P.gray,callback:v=>v+'%',font:{family:'Inter'}},grid:{color:P.grayL}},y:{stacked:true,ticks:{color:'#475467',font:{size:10,family:'Inter'}},grid:{display:false}}}}});
+  /* PAGE */
+  .page { display: none; }
+  .page.active { display: block; }
+  .container { max-width: 1280px; margin: 0 auto; padding: 32px 24px; }
 
-new Chart(document.getElementById('cWeekDepth'),{type:'doughnut',data:{labels:['深度 27%','中度 40%','淺層 33%'],datasets:[{data:[27,40,33],backgroundColor:[P.purple,P.teal,P.rose],borderWidth:2,borderColor:'#fff',hoverOffset:6}]},options:{...cOpts(true),cutout:'62%'}});
-new Chart(document.getElementById('cWeekTrend'),{type:'line',data:{labels:['W10','W11','W12','W13','W14'],datasets:[{label:'深度%',data:[14,15,16,17,18],borderColor:P.purple,backgroundColor:P.purple+'1a',fill:true,tension:.4,pointRadius:4,pointBackgroundColor:'#fff',pointBorderColor:P.purple,pointBorderWidth:2},{label:'中度%',data:[26,27,28,29,30],borderColor:P.teal,backgroundColor:P.teal+'1a',fill:true,tension:.4,pointRadius:4,pointBackgroundColor:'#fff',pointBorderColor:P.teal,pointBorderWidth:2}]},options:{...cOpts(true),scales:{y:{beginAtZero:true,max:50,ticks:{color:P.gray,callback:v=>v+'%',font:{family:'Inter'}},grid:{color:P.grayL}},x:{ticks:{color:'#475467',font:{family:'Inter'}},grid:{display:false}}}}});
+  /* SECTION HEADER */
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .section-title { font-size: 16px; font-weight: 600; color: var(--gray-900); display: flex; align-items: center; gap: 8px; }
+  .section-title .icon { font-size: 18px; }
+
+  /* INSIGHT CARDS 2x2 */
+  .insights-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 32px; }
+  @media(max-width: 768px) { .insights-grid { grid-template-columns: 1fr; } }
+  .insight-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-xl); padding: 20px 24px; box-shadow: var(--shadow-xs); position: relative; overflow: hidden; }
+  .insight-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .insight-card.purple::before { background: var(--primary-600); }
+  .insight-card.teal::before { background: var(--teal-500); }
+  .insight-card.rose::before { background: var(--rose-500); }
+  .insight-card.amber::before { background: var(--warning-500); }
+  .insight-num { font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 8px; }
+  .insight-card.purple .insight-num { color: var(--primary-700); }
+  .insight-card.teal .insight-num { color: var(--teal-500); }
+  .insight-card.rose .insight-num { color: var(--rose-500); }
+  .insight-card.amber .insight-num { color: var(--warning-700); }
+  .insight-title { font-size: 15px; font-weight: 600; color: var(--gray-900); margin-bottom: 6px; }
+  .insight-body { font-size: 13px; color: var(--gray-600); line-height: 1.6; }
+
+  /* KPI CARDS */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+  @media(max-width: 900px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+  .kpi-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-xs); }
+  .kpi-label { font-size: 12px; font-weight: 500; color: var(--gray-500); margin-bottom: 8px; }
+  .kpi-value { font-size: 28px; font-weight: 700; color: var(--gray-900); margin-bottom: 4px; }
+  .kpi-sub { font-size: 12px; color: var(--gray-400); }
+  .kpi-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-top: 6px; }
+  .kpi-badge.up { background: var(--success-50); color: var(--success-700); }
+  .kpi-badge.down { background: var(--error-50); color: var(--error-700); }
+  .kpi-badge.neutral { background: var(--gray-100); color: var(--gray-600); }
+
+  /* CHARTS GRID */
+  .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+  @media(max-width: 900px) { .charts-grid { grid-template-columns: 1fr; } }
+  .chart-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-xs); }
+  .chart-title { font-size: 14px; font-weight: 600; color: var(--gray-800); margin-bottom: 4px; }
+  .chart-sub { font-size: 12px; color: var(--gray-500); margin-bottom: 16px; }
+  .chart-wrap { position: relative; height: 220px; }
+
+  /* INFO TIP */
+  .info-tip { position: relative; display: inline-flex; align-items: center; }
+  .info-tip .tip-icon { width: 16px; height: 16px; background: var(--gray-200); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; color: var(--gray-500); cursor: default; margin-left: 6px; }
+  .info-tip .tip-text { visibility: hidden; opacity: 0; position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%); background: var(--gray-900); color: white; font-size: 12px; padding: 8px 12px; border-radius: var(--radius-md); width: 240px; line-height: 1.5; transition: opacity .2s; z-index: 50; pointer-events: none; }
+  .info-tip:hover .tip-text { visibility: visible; opacity: 1; }
+
+  /* DEPTH BARS */
+  .depth-section { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-xs); margin-bottom: 32px; }
+  .depth-row { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+  .depth-row:last-child { margin-bottom: 0; }
+  .depth-label { width: 110px; font-size: 13px; font-weight: 500; color: var(--gray-700); flex-shrink: 0; }
+  .depth-bar-wrap { flex: 1; background: var(--gray-100); border-radius: 999px; height: 10px; }
+  .depth-bar { height: 10px; border-radius: 999px; transition: width 1s ease; }
+  .depth-bar.deep { background: var(--primary-600); }
+  .depth-bar.medium { background: var(--teal-500); }
+  .depth-bar.shallow { background: var(--warning-500); }
+  .depth-pct { width: 40px; font-size: 13px; font-weight: 600; color: var(--gray-700); text-align: right; }
+  .depth-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+  .depth-tag { padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 500; }
+  .depth-tag.deep { background: var(--primary-50); color: var(--primary-700); }
+  .depth-tag.medium { background: #e6faf8; color: #0e7a6b; }
+  .depth-tag.shallow { background: var(--warning-50); color: var(--warning-700); }
+
+  /* TOPICS */
+  .topics-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
+  .topic-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); box-shadow: var(--shadow-xs); overflow: hidden; }
+  .topic-header { display: flex; align-items: center; gap: 12px; padding: 16px 20px; cursor: pointer; user-select: none; transition: background .1s; }
+  .topic-header:hover { background: var(--gray-50); }
+  .topic-rank { width: 28px; height: 28px; border-radius: var(--radius-sm); background: var(--gray-100); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--gray-500); flex-shrink: 0; }
+  .topic-rank.hot { background: var(--primary-50); color: var(--primary-700); }
+  .topic-name { flex: 1; font-size: 14px; font-weight: 600; color: var(--gray-800); }
+  .topic-meta { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .platform-tags { display: flex; gap: 4px; }
+  .platform-tag { padding: 2px 7px; background: var(--gray-100); color: var(--gray-600); border-radius: 999px; font-size: 10px; font-weight: 500; }
+  .depth-chip { padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; }
+  .depth-chip.deep { background: var(--primary-50); color: var(--primary-700); }
+  .depth-chip.medium { background: #e6faf8; color: #0e7a6b; }
+  .depth-chip.shallow { background: var(--warning-50); color: var(--warning-700); }
+  .fire { font-size: 13px; letter-spacing: -1px; }
+  .chevron { width: 16px; height: 16px; transition: transform .2s; color: var(--gray-400); }
+  .chevron.open { transform: rotate(180deg); }
+  .topic-body { display: none; padding: 0 20px 20px; border-top: 1px solid var(--gray-100); }
+  .topic-body.open { display: block; }
+  .topic-summary { font-size: 13px; color: var(--gray-600); line-height: 1.7; margin: 12px 0; background: var(--gray-50); border-radius: var(--radius-md); padding: 12px 16px; border-left: 3px solid var(--primary-500); }
+  .topic-sources-title { font-size: 12px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+  .topic-sources { display: flex; flex-direction: column; gap: 6px; }
+  .topic-source { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+  .source-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--primary-400); flex-shrink: 0; }
+  .topic-source a { color: var(--primary-600); text-decoration: none; }
+  .topic-source a:hover { text-decoration: underline; }
+
+  /* MARKET TABLE */
+  .table-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); box-shadow: var(--shadow-xs); overflow: hidden; margin-bottom: 32px; }
+  table { width: 100%; border-collapse: collapse; }
+  thead th { background: var(--gray-50); padding: 12px 16px; text-align: left; font-size: 12px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: .05em; border-bottom: 1px solid var(--gray-200); }
+  tbody td { padding: 14px 16px; font-size: 13px; color: var(--gray-700); border-bottom: 1px solid var(--gray-100); }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: var(--gray-25); }
+  .td-name { font-weight: 600; color: var(--gray-800); }
+  .td-badge { display: inline-flex; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; }
+
+  /* WEEKLY PLACEHOLDER */
+  .weekly-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 400px; color: var(--gray-400); gap: 12px; }
+  .weekly-empty-icon { font-size: 48px; }
+  .weekly-empty-title { font-size: 16px; font-weight: 600; color: var(--gray-500); }
+
+  /* DIVIDER */
+  .divider { height: 1px; background: var(--gray-200); margin: 32px 0; }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <div class="logo">
+      <div class="logo-icon">⚡</div>
+      AI Pulse
+    </div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="switchTab('daily')">每日報告</button>
+      <button class="nav-tab" onclick="switchTab('weekly')">每週彙整</button>
+    </div>
+    <div class="date-badge">
+      <span>📅</span>
+      <span>2026 / 04 / 01</span>
+    </div>
+  </div>
+</div>
+
+<!-- DAILY PAGE -->
+<div id="page-daily" class="page active">
+<div class="container">
+
+  <!-- SECTION: TODAY'S INSIGHTS -->
+  <div class="section-header" style="margin-bottom:16px;">
+    <div class="section-title"><span class="icon">💡</span> 今日洞察</div>
+    <span style="font-size:12px;color:var(--gray-400);">基於 9 平台即時貼情分析</span>
+  </div>
+  <div class="insights-grid">
+    <div class="insight-card purple">
+      <div class="insight-num">洞察 01 · 技術突破</div>
+      <div class="insight-title">AI代理正式超越人類桌面操作基準</div>
+      <div class="insight-body">OpenAI GPT-5.4 在 OSWorld-V 桌面任務基準測試中以 75% 的得分超越人類基準 72.4%，標誌著 AI 從「對話工具」正式進入「自主數位工作者」時代。這一突破意義深遠——企業現在可以讓 AI 代理直接操作電腦完成複雜多步驟工作流程，無需額外開發基礎設施。</div>
+    </div>
+    <div class="insight-card teal">
+      <div class="insight-num">洞察 02 · 協議標準化</div>
+      <div class="insight-title">MCP 正在成為 AI 整合的事實標準</div>
+      <div class="insight-body">2026 年被業界定義為「MCP 企業採用元年」。Anthropic 推出的 Model Context Protocol 已被 OpenAI、Google DeepMind、VS Code、Cursor 等主流平台採用，形成跨廠商的統一標準。這意味著開發者只需建立一次整合，即可接入所有主流 AI 系統，大幅降低 AI 應用的開發成本與碎片化問題。</div>
+    </div>
+    <div class="insight-card rose">
+      <div class="insight-num">洞察 03 · 市場格局</div>
+      <div class="insight-title">開源 LLM 已佔生產部署過半份額</div>
+      <div class="insight-body">2026 年，DeepSeek V3.2（671B MoE）與 Meta Llama 4（10M token 上下文）主導開源市場，超過半數的生產 LLM 部署已選用開源模型而非 GPT-5 或 Claude 等閉源 API。中國開源模型與西方版本的發佈週期差距持續縮短，從數月驟縮至數週，正在重塑全球 AI 供應鏈格局。</div>
+    </div>
+    <div class="insight-card amber">
+      <div class="insight-num">洞察 04 · 台灣視角</div>
+      <div class="insight-title">台灣 AI 戰略轉向電力與散熱基礎設施</div>
+      <div class="insight-body">台灣 AI 產業討論已從模型與軟體轉向物理基礎設施。2026 年決勝點在於「電從哪來、熱往哪去」——高壓直流電（HVDC）、液冷技術成為供應鏈新焦點。長興化工、南寶樹脂等傳統產業因地緣政治與技術需求找到新舞台。台灣在 AI 算力擴張浪潮中的定位正從晶片生產擴展至完整基礎設施。</div>
+    </div>
+  </div>
+
+  <!-- KPI CARDS -->
+  <div class="section-header" style="margin-bottom:16px;">
+    <div class="section-title"><span class="icon">📊</span> 今日 AI 聲量 KPI</div>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label">監測平台數</div>
+      <div class="kpi-value">9</div>
+      <div class="kpi-sub">X · Reddit · PTT · Dcard · FB · YT · LinkedIn · Threads · IG</div>
+      <div class="kpi-badge neutral">全平台覆蓋</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">熱門話題數</div>
+      <div class="kpi-value">15</div>
+      <div class="kpi-sub">含深度分析 + 來源連結</div>
+      <div class="kpi-badge up">↑ 3 vs 昨日</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">深度應用佔比</div>
+      <div class="kpi-value">22%</div>
+      <div class="kpi-sub">API / Agent / RAG / MCP / 自動化</div>
+      <div class="kpi-badge up">↑ 2% vs 昨日</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">主力焦點模型</div>
+      <div class="kpi-value" style="font-size:18px;">GPT-5.4</div>
+      <div class="kpi-sub">OpenAI · 自主代理突破</div>
+      <div class="kpi-badge up">熱度最高</div>
+    </div>
+  </div>
+
+  <!-- CHARTS ROW -->
+  <div class="section-header" style="margin-bottom:16px;">
+    <div class="section-title"><span class="icon">📈</span> 平台 AI 佔比分析</div>
+    <div class="info-tip">
+      <span style="font-size:12px;color:var(--gray-400);">計算說明</span>
+      <span class="tip-icon">i</span>
+      <span class="tip-text">平台AI佔比 = 搜尋結果中AI相關討論/總討論抽樣×100%。數據基於關鍵字搜尋結果密度估算，非API真實數據。</span>
+    </div>
+  </div>
+  <div class="charts-grid">
+    <div class="chart-card">
+      <div class="chart-title">各平台 AI 討論佔比 (%)</div>
+      <div class="chart-sub">估算各平台今日 AI 相關討論佔總內容比例</div>
+      <div class="chart-wrap"><canvas id="platformChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">應用深度分布</div>
+      <div class="chart-sub">深度 / 中度 / 淺層應用各自佔比</div>
+      <div class="chart-wrap"><canvas id="depthChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- TOPIC LIST -->
+  <div class="section-header" style="margin-bottom:16px;">
+    <div class="section-title"><span class="icon">🔥</span> TOP 15 熱門話題</div>
+    <span style="font-size:12px;color:var(--gray-400);">點擊展開 AI 摘要與來源</span>
+  </div>
+  <div class="topics-list">
+
+    <!-- 01 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank hot">01</div>
+        <div class="topic-name">GPT-5.4 自主代理突破人類桌面操作基準</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">X</span><span class="platform-tag">Reddit</span><span class="platform-tag">LinkedIn</span></div>
+          <span class="depth-chip deep">深度</span>
+          <span class="fire">🔥🔥🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">OpenAI 發布 GPT-5.4，在模擬真實桌面生產力任務的 OSWorld-V 基準測試中取得 75% 得分，正式超越人類基準 72.4%。這是 AI 歷史上的關鍵轉折點——模型不僅能對話、推理，還能自主操作電腦、跨應用執行多步驟工作流程，且無需開發者額外建置基礎設施。配備 100 萬 token 上下文窗口，讓 AI 代理可在更長的任務序列中規劃、執行與驗證。對企業的市場意義在於：「AI 同事」正從概念走向實際可用的生產工具，重新定義知識工作者的角色分工。預期 2026 年第二季將有大量企業開始評估「以 AI 代理取代部分人工流程」的 ROI。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://openai.com/index/introducing-gpt-5-4/" target="_blank">Introducing GPT-5.4 | OpenAI 官方公告</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://fortune.com/2026/03/05/openai-new-model-gpt5-4-enterprise-agentic-anthropic/" target="_blank">OpenAI launches GPT-5.4 for enterprise work | Fortune</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.abaka.ai/blog/gpt-5-4-desktop-automation-breakthrough" target="_blank">GPT-5.4 Beats Humans at Desktop Tasks | Abaka AI</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank hot">02</div>
+        <div class="topic-name">MCP 企業採用元年：AI 整合標準化加速</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">Reddit</span><span class="platform-tag">LinkedIn</span><span class="platform-tag">DEV</span></div>
+          <span class="depth-chip deep">深度</span>
+          <span class="fire">🔥🔥🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">2026 年業界普遍將其定義為「MCP 企業採用元年」。Anthropic 於 2024 年 11 月推出的 Model Context Protocol 已成為 AI 整合的事實標準——OpenAI、Google DeepMind、VS Code、Cursor、Replit、Sourcegraph 等均已支援。開發者現在只需「建立一次，接入所有」，徹底解決了 AI 工具整合碎片化的問題。對中小型開發團隊而言，MCP 大幅降低了建構 AI Agent 的門檻；對企業而言，標準化意味著更好的治理與合規。CData、The New Stack 等媒體指出，MCP 的 2026 路線圖將聚焦於解決生產環境中的效能與安全性痛點。這是繼 REST API 之後，AI 時代最重要的整合協議標準化進程。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.cdata.com/blog/2026-year-enterprise-ready-mcp-adoption" target="_blank">2026: The Year for Enterprise-Ready MCP Adoption | CData</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://dev.to/universe7creator/the-complete-guide-to-model-context-protocol-mcp-building-ai-native-applications-in-2026-5e57" target="_blank">Complete Guide to MCP in 2026 | DEV Community</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://thenewstack.io/model-context-protocol-roadmap-2026/" target="_blank">MCP Roadmap 2026 | The New Stack</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank hot">03</div>
+        <div class="topic-name">Anthropic Claude 訂閱用戶翻倍，AI 助理市場三足鼎立</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">X</span><span class="platform-tag">LinkedIn</span></div>
+          <span class="depth-chip medium">中度</span>
+          <span class="fire">🔥🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">Anthropic 的 Claude 付費訂閱用戶在 2026 年成長超過一倍，公司年化收入接近 190 億美元，與 OpenAI 的 250 億美元差距正在縮小。Anthropic 同步推出 Claude Sonnet 4.6 與 Opus 4.6，並在測試版提供 100 萬 token 的超長上下文窗口。2026 年的 AI 助理市場已形成明顯三足鼎立格局：ChatGPT 以普及率稱霸、Gemini 靠 Google 生態滲透企業、Claude 則以「複雜推理與安全性」吸引高端付費用戶。市場意義在於：AI 助理已進入「差異化競爭」而非純粹的技術比拼，品牌定位與使用場景日益重要。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.techbuzz.ai/articles/claude-paid-subscriptions-double-as-anthropic-gains-ground" target="_blank">Claude Paid Subscriptions Double | TechBuzz AI</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://teamai.com/blog/uncategorized/claude-vs-chatgpt-vs-gemini-in-2026-giants-challengers-and-the-ai-odel-showdown/" target="_blank">Claude vs ChatGPT vs Gemini 2026 Showdown | TeamAI</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.crescendo.ai/news/latest-ai-news-and-updates" target="_blank">Latest AI News 2026 | Crescendo AI</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank hot">04</div>
+        <div class="topic-name">Cursor vs GitHub Copilot：AI 編程工具 360 億美元估值大戰</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">Reddit</span><span class="platform-tag">X</span><span class="platform-tag">LinkedIn</span></div>
+          <span class="depth-chip deep">深度</span>
+          <span class="fire">🔥🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">Cursor 由四位 MIT 畢業生創立，在不到 24 個月內年化收入突破 10 億美元，估值達 293 億美元。GitHub Copilot 則已累積超過 2000 萬用戶，進入全球 90% 的財富百強企業。兩者代表不同的 AI 編程哲學：Copilot 像「快速自動補全」，Cursor 像「在編輯器內的智慧協作者」，而 Claude Code 則像「把任務交給同事讓他完成」。2026 年的開發者調查顯示，65% 的開發者定期使用 AI 編程工具，但實際生產力提升相對務實——約 20-30% 的效率增長集中在特定工作流程，而非行銷宣傳中的「10倍速」。這場競爭正在加速兩者的功能創新，最終受益者是全球開發者社群。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://digidai.github.io/2026/02/08/cursor-vs-github-copilot-ai-coding-tools-deep-comparison/" target="_blank">Cursor vs GitHub Copilot: $36B War for the Future | DigiDai</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.digitalocean.com/resources/articles/github-copilot-vs-cursor" target="_blank">GitHub Copilot vs Cursor Review 2026 | DigitalOcean</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.adventureppc.com/blog/claude-code-vs-cursor-vs-github-copilot-the-definitive-ai-coding-tool-comparison-for-2026" target="_blank">Claude Code vs Cursor vs Copilot 2026 | AdventurePPC</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank">05</div>
+        <div class="topic-name">ChatGPT Health 整合醫療記錄：AI 進入個人健康管理</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">X</span><span class="platform-tag">Reddit</span><span class="platform-tag">YouTube</span></div>
+          <span class="depth-chip shallow">淺層</span>
+          <span class="fire">🔥🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">2026 年 1 月 7 日，OpenAI 推出 ChatGPT Health，允許用戶連結電子病歷、Apple Health 及 MyFitnessPal、Peloton 等健康應用，在 AI 對話中獲得基於個人健康數據的洞察。這不是診斷工具，而是協助用戶「更主動理解並管理自身健康」的個人健康顧問。Privacy 爭議隨即爆發——批評者指出將完整醫療記錄交給 OpenAI 存在風險，而 OpenAI 聲稱健康對話數據不用於訓練模型並使用專屬加密機制。市場意義：AI 醫療入口正在從 B2B 醫院系統轉向直接面向消費者的 C 端應用，預計將引發更多監管關注與競爭跟進。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://openai.com/index/introducing-chatgpt-health/" target="_blank">Introducing ChatGPT Health | OpenAI 官方</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.cnbc.com/2026/01/07/openai-chatgpt-health-medical-records.html" target="_blank">OpenAI launches ChatGPT Health | CNBC</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://time.com/7344997/chatgpt-health-medical-records-privacy-open-ai/" target="_blank">Is Giving ChatGPT Health Your Medical Records a Good Idea? | TIME</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 06 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank">06</div>
+        <div class="topic-name">開源 LLM 大戰：DeepSeek V3.2 vs Llama 4 正面對決</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">Reddit</span><span class="platform-tag">YouTube</span><span class="platform-tag">X</span></div>
+          <span class="depth-chip deep">深度</span>
+          <span class="fire">🔥🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">2026 年開源 LLM 市場由 DeepSeek V3.2（671B MoE 架構，MIT 授權）與 Meta Llama 4（1000 萬 token 超長上下文）共同主導。DeepSeek 採用混合專家架構，每個 token 僅啟動 370 億參數，在維持超大模型規模的同時控制計算成本。Llama 4 的 1000 萬 token 上下文讓其在長文件、長期記憶與複雜 Agent 任務中具有獨特優勢。最關鍵的市場信號：超過 50% 的企業生產 LLM 部署已轉向開源模型，意味著閉源 API 的定價模式面臨結構性挑戰。中美開源模型的發佈週期差距從數月縮短至數週，地緣政治角力正在 AI 技術層面加速演繹。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://o-mega.ai/articles/top-10-open-source-llms-the-deepseek-revolution-2026" target="_blank">Top 10 Open Source LLMs 2026: DeepSeek Revolution | o-mega.ai</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://aitoolranked.com/blog/best-open-source-llm-2026-llama-deepseek-qwen-comparison" target="_blank">Best Open Source LLM 2026 Comparison | AIToolRanked</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://scopir.com/posts/best-open-source-llms-2026/" target="_blank">DeepSeek vs Llama vs Gemma 2026 | Scopir</a></div>
+        </div>
+      </div>
+    </div>or-youtube-content-creators" target="_blank">8 Best AI Video Tools for YouTube Creators 2026 | DomoAI</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://posteverywhere.ai/blog/25-best-ai-tools-for-youtube" target="_blank">25 Best AI Tools for YouTube 2026 | PostEverywhere</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://shotstack.io/learn/best-ai-tools-for-youtube-automation/" target="_blank">8 Best AI Tools for YouTube Automation | Shotstack</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank">10</div>
+        <div class="topic-name">NASA 火星車隊 Claude AI 規劃行進路線，28 年人工任務首度 AI 化</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">X</span><span class="platform-tag">Reddit</span></div>
+          <span class="depth-chip medium">中度</span>
+          <span class="fire">🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">NASA 毅力號火星車完成了首批隊 Anthropic Claude 視覺語言模型規劃的火星行飛任務，取代了人類手動執行長達 28 年的複雜規劃工作。Claude 透過分析地形圖像、評估路線風險並生成可執行的移動指令，讓科學家能聚焦於更高層次的探索決策。這不僅是 AI 在太空科學領域的里程碑應用，更象徵 AI 在「高風險、低容錯」任務中的可靠性已達到人類替代的閾值。對地球產業的市場意義：若 AI 能在火星任務中承擔關鍵規劃，其在地球製造、物流與基礎設施維護中的「自主決策」潛在值得全面重新評估。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.crescendo.ai/news/latest-ai-news-and-updates" target="_blank">NASA Mars Rover AI Planning | Crescendo AI News</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.startuphub.ai/ai-news/artificial-intelligence/2026/ai-models-chatgpt-claude-gemini-and-beyond" target="_blank">AI Models 2026 Developments | StartupHub AI</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 11 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank">11</div>
+        <div class="topic-name">LinkedIn 成 AI 搜尋最常引用來源，專業內容價值急升</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">LinkedIn</span><span class="platform-tag">X</span></div>
+          <span class="depth-chip shallow">淺層</span>
+          <span class="fire">🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">2026 年 3 月，Axios 報導 LinkedIn 已成為 ChatGPT 等 AI 聊天機器人引用的第一大來源域名，引用頻次自 2025 年 11 月起翻倍。LinkedIn 的貼文、長文與電子報佔 ChatGPT 所有 LinkedIn 引用的 35%。這一趨勢對內容創作者和行銷人員的意義深遠：在 AI 搜尋時代，在 LinkedIn 上定期發佈高質量專業內容的個人和品牌，正在獲得遠超傳統 SEO 的「AI 搜尋可見度」。平台策略師建議企業將 LinkedIn 的思想領袖內容納入 AI 時代的「搜尋可見性」策略核心。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.axios.com/2026/03/10/linkedin-chatgpt-ai-chatbot-answers" target="_blank">LinkedIn becomes top source for ChatGPT answers | Axios</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://metricool.com/linkedin-trends/" target="_blank">2026 LinkedIn Trends: Content Formats | Metricool</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank">12</div>
+        <div class="topic-name">PTT 熱討：AI 取代工作的話題達到新高潮</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">PTT</span></div>
+          <span class="depth-chip shallow">淺層</span>
+          <span class="fire">🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">PTT Soft_Job、Stock 等看板的 AI 取代就業討論在 2026 年持續升溫。討論焦點已從「AI 會不會取代人類」轉向「哪些職位已被取代、薪資如何調整、如何轉型」的具體策略層次。PTT 用戶的普遍焦慮集中在：軟體開發初階職位因 AI 編程助理的普及而需求下降；白領辦公室工作因 AI Agent 的崛起面臨員縮。樂觀討論者則分享如何透過「使用 AI 工具倍增產能」來在職場保持競爭力。從媒體熱度觀察，此議題的長期存在顯示台灣勞工社群對 AI 影響的焦慮程度持續高於全球平均。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.ptt.cc/bbs/Soft_Job/M.1763522645.A.A80.html" target="_blank">[討論] 說 AI 不會取代的可以閉嘴了 | PTT Soft_Job</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.ptt.cc/bbs/Soft_Job/M.1722498571.A.51F.html" target="_blank">[討論] 太依賴AI去工作是不是不太好？| PTT Soft_Job</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 13 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank">13</div>
+        <div class="topic-name">Perplexity AI 成學術研究首選，引發學術誠信爭議</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">Reddit</span><span class="platform-tag">LinkedIn</span></div>
+          <span class="depth-chip medium">中度</span>
+          <span class="fire">🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">Perplexity AI 在 Reddit 的 r/PhD、r/GradSchool、r/academia 等學術社群中迅速成為首選研究工具，用戶讚譽其「附引用來源的即時網路搜尋能力」讓研究工作效率大幅提升。然而，學術機構的擔憂也隨之而來：學生過度依賴 Perplexity 提供的引用摘要，可能導致「選擇性理解」或「不知原始論文」的學術行為退化。部分大學開始修訂 AI 使用政策，明確區分「AI 輔助研究」與「AI 替代思考」的界線。市場意義：Perplexity 模式——即「具備引用機制的 AI 搜尋」——正在重新定義資訊獲取的方式，對傳統搜尋引擎（Google）和學術資料庫（JSTOR、Web of Science）構成結構性威脅。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.aitooldiscovery.com/guides/best-ai-for-research-reddit" target="_blank">Best AI for Research: Reddit's Top Picks 2026 | AIToolDiscovery</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://aitoolscoutai.com/best-ai-subreddits-2026-guide/" target="_blank">Best AI Subreddits 2026 | AI Tool Scout</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 14 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank">14</div>
+        <div class="topic-name">Dcard AI 生成文章品質爭議：「真實性」成平台存亡關鍵</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">Dcard</span><span class="platform-tag">X</span></div>
+          <span class="depth-chip shallow">淺層</span>
+          <span class="fire">🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">Dcard 正面臨一個 2026 年社群平台普遍面臨的困境：AI 生成文章大量湧入，語氣生硬、結構雷同，缺乏人類情感與獨特觀點。用戶開始抱怨「平台從情感交流的樹洞，變成了大型個人廣告看板」。Dcard 推動的「創作者計畫」個人 IP 化轉型，雖然初衷是提升內容品質，卻可能進一步加劇「表演式分享」而非真實交流的趨勢。根據口碑行銷 2026 趨勢白皮書，在 AI 時代「真實性」已成為品牌和平台最重要的護城河。市場意義：判別 AI 生成內容、維護社群真實性將成為 2026 年所有 UGC 平台的核心治理挑戰，也將催生「AI 內容偵測」相關工具的商機。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://vocus.cc/article/69c5f955fd89780001db189b" target="_blank">Dcard 流量下滑的觀察：AI文、創作者枯竭 | 方格子</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://enterimc.com/2026-%E5%8F%A3%E7%A2%91%E8%A1%8C%E9%8A%B7%E8%B6%A8%E5%8B%A2%E7%99%BD%E7%9A%AE%E6%9B%B8" target="_blank">2026口碑行銷趨勢白皮書 | 確認鍵行銷</a></div>
+        </div>
+      </div>
+    </div>勢白皮書：真實性 | 確認鍵行銷</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 15 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank">15</div>
+        <div class="topic-name">技術圈迎 AI 聖杯時刻：多模態推理達成「通用」邊界</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">X</span><span class="platform-tag">Reddit</span><span class="platform-tag">YouTube</span></div>
+          <span class="depth-chip deep">深度</span>
+          <span class="fire">🔥🔥🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">2026 年 3 月，多位 AI 研究者在論文與討論中達成共識：AI 正在達成「通用多模態推理」的邊界。GPT-5.4、Gemini 2.0 Ultra、Claude 4 等模型已不再侷限於「語言工具」，而是能流暢地在文字、圖像、影片、音頻、3D 場景之間進行推理。特別是在零樣本學習與遷移學習中，AI 表現超越人類基準。這標誌著 AI 從「單一模式擅長者」向「跨模式通才」的關鍵轉折。技術圈將此稱為「AI 的寒武紀爆炸時刻」——不同應用場景在統一基礎模型上爆發出多樣化創新。市場意義：通用多模態 AI 將打破傳統垂直應用的邊界，催生全新的商業邏輯——從「特定工具」轉向「智慧個人助理」的範式轉移。預期未來 12 個月內，大型企業的「AI 中台」投資將爆發性增長。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://arxiv.org/list/cs.AI/recent" target="_blank">Latest AI Research Papers 2026 | arXiv</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://technewstoday.ai/multimodal-ai-2026-era-of-intelligence-convergence/" target="_blank">Multimodal AI 2026: The Era of Intelligence Convergence | TechNews Today</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.reddit.com/r/machinelearning/" target="_blank">ML Community Discussion | r/machinelearning</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEPTH SECTION -->
+  <div class="section-header" style="margin-bottom:16px;">
+    <div class="section-title"><span class="icon">📊</span> 應用深度分布</div>
+    <span style="font-size:12px;color:var(--gray-400);">AI 討論依照應用複雜度分層統計</span>
+  </div>
+  <div class="depth-section">
+    <div class="depth-row">
+      <div class="depth-label">深度應用</div>
+      <div class="depth-bar-wrap"><div class="depth-bar deep" style="width:0%"></div></div>
+      <div class="depth-pct">22%</div>
+      <div class="depth-tags"><span class="depth-tag deep">Agent</span><span class="depth-tag deep">RAG</span><span class="depth-tag deep">API</span></div>
+    </div>
+    <div class="depth-row">
+      <div class="depth-label">中度應用</div>
+      <div class="depth-bar-wrap"><div class="depth-bar medium" style="width:0%"></div></div>
+      <div class="depth-pct">38%</div>
+      <div class="depth-tags"><span class="depth-tag medium">Fine-tune</span><span class="depth-tag medium">Prompt Engineering</span></div>
+    </div>
+    <div class="depth-row">
+      <div class="depth-label">淺層使用</div>
+      <div class="depth-bar-wrap"><div class="depth-bar shallow" style="width:0%"></div></div>
+      <div class="depth-pct">40%</div>
+      <div class="depth-tags"><span class="depth-tag shallow">Chatbot</span><span class="depth-tag shallow">內容生成</span></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+</div>
+</div>
+
+<!-- WEEKLY PAGE -->
+<div id="page-weekly" class="page">
+<div class="container">
+  <div class="weekly-empty">
+    <div class="weekly-empty-icon">📅</div>
+    <div class="weekly-empty-title">每週彙整敬請期待</div>
+    <span style="font-size:13px;color:var(--gray-500);">此功能每週五 18:00 更新</span>
+  </div>
+</div>
+</div>
+
+<script>
+// Data for platform chart
+const platformChartData = {
+  labels: ['X', 'Reddit', 'PTT', 'Dcard', 'FB', 'YT', 'LinkedIn', 'Threads', 'IG'],
+  datasets: [{
+    label: 'AI 討論佔比 (%)',
+    data: [24, 20, 16, 12, 8, 7, 6, 4, 3],
+    backgroundColor: [
+      '#7f56d9', '#2e90fa', '#15b79e', '#f63d68',
+      '#f79009', '#12b76a', '#7f56d9', '#f63d68', '#2e90fa'
+    ],
+  }]
+};
+
+// Data for depth chart
+const depthChartData = {
+  labels: ['深度', '中度', '淺層'],
+  datasets: [{
+    data: [22, 38, 40],
+    backgroundColor: ['#7f56d9', '#15b79e', '#f79009'],
+  }]
+};
+
+function initCharts() {
+  if (typeof Chart !== 'undefined') {
+    // Platform bar chart
+    const platformCtx = document.getElementById('platformChart');
+    if (platformCtx) {
+      new Chart(platformCtx, {
+        type: 'bar',
+        data: platformChartData,
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true, max: 30 } }
+        }
+      });
+    }
+
+    // Depth pie chart
+    const depthCtx = document.getElementById('depthChart');
+    if (depthCtx) {
+      new Chart(depthCtx, {
+        type: 'doughnut',
+        data: depthChartData,
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom' } }
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Pulse 日報 — 2026/04/01</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --white: #fff;
+    --bg: #f9fafb;
+    --bg-alt: #f2f4f7;
+    --gray-25: #fcfcfd;
+    --gray-50: #f9fafb;
+    --gray-100: #f2f4f7;
+    --gray-200: #eaecf0;
+    --gray-300: #d0d5dd;
+    --gray-400: #98a2b3;
+    --gray-500: #667085;
+    --gray-600: #475467;
+    --gray-700: #344054;
+    --gray-800: #1d2939;
+    --gray-900: #101828;
+    --primary-50: #f4ebff;
+    --primary-500: #9e77ed;
+    --primary-600: #7f56d9;
+    --primary-700: #6941c6;
+    --primary-800: #53389e;
+    --success-50: #ecfdf3;
+    --success-500: #12b76a;
+    --success-700: #027a48;
+    --error-50: #fef3f2;
+    --error-500: #f04438;
+    --error-700: #b42318;
+    --warning-50: #fffaeb;
+    --warning-500: #f79009;
+    --warning-700: #b54708;
+    --teal-500: #15b79e;
+    --rose-500: #f63d68;
+    --blue-500: #2e90fa;
+    --shadow-xs: 0 1px 2px rgba(16,24,40,.05);
+    --shadow-sm: 0 1px 3px rgba(16,24,40,.1), 0 1px 2px rgba(16,24,40,.06);
+    --shadow-lg: 0 12px 16px -4px rgba(16,24,40,.08), 0 4px 6px -2px rgba(16,24,40,.03);
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--gray-900); font-size: 14px; line-height: 1.5; }
+
+  /* NAV */
+  .top-bar { background: var(--white); border-bottom: 1px solid var(--gray-200); position: sticky; top: 0; z-index: 100; }
+  .top-bar-inner { max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 18px; color: var(--gray-900); }
+  .logo-icon { width: 32px; height: 32px; background: var(--primary-600); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: white; font-size: 16px; }
+  .nav-tabs { display: flex; gap: 4px; }
+  .nav-tab { padding: 8px 16px; border-radius: var(--radius-md); font-size: 14px; font-weight: 500; cursor: pointer; border: none; background: transparent; color: var(--gray-500); transition: all .15s; }
+  .nav-tab.active { background: var(--primary-50); color: var(--primary-700); }
+  .nav-tab:hover:not(.active) { background: var(--gray-100); color: var(--gray-700); }
+  .date-badge { display: flex; align-items: center; gap: 6px; padding: 6px 12px; background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: var(--radius-md); font-size: 13px; font-weight: 500; color: var(--gray-600); }
+
+  /* PAGE */
+  .page { display: none; }
+  .page.active { display: block; }
+  .container { max-width: 1280px; margin: 0 auto; padding: 32px 24px; }
+
+  /* SECTION HEADER */
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .section-title { font-size: 16px; font-weight: 600; color: var(--gray-900); display: flex; align-items: center; gap: 8px; }
+  .section-title .icon { font-size: 18px; }
+
+  /* INSIGHT CARDS 2x2 */
+  .insights-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 32px; }
+  @media(max-width: 768px) { .insights-grid { grid-template-columns: 1fr; } }
+  .insight-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-xl); padding: 20px 24px; box-shadow: var(--shadow-xs); position: relative; overflow: hidden; }
+  .insight-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .insight-card.purple::before { background: var(--primary-600); }
+  .insight-card.teal::before { background: var(--teal-500); }
+  .insight-card.rose::before { background: var(--rose-500); }
+  .insight-card.amber::before { background: var(--warning-500); }
+  .insight-num { font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 8px; }
+  .insight-card.purple .insight-num { color: var(--primary-700); }
+  .insight-card.teal .insight-num { color: var(--teal-500); }
+  .insight-card.rose .insight-num { color: var(--rose-500); }
+  .insight-card.amber .insight-num { color: var(--warning-700); }
+  .insight-title { font-size: 15px; font-weight: 600; color: var(--gray-900); margin-bottom: 6px; }
+  .insight-body { font-size: 13px; color: var(--gray-600); line-height: 1.6; }
+
+  /* KPI CARDS */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+  @media(max-width: 900px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+  .kpi-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-xs); }
+  .kpi-label { font-size: 12px; font-weight: 500; color: var(--gray-500); margin-bottom: 8px; }
+  .kpi-value { font-size: 28px; font-weight: 700; color: var(--gray-900); margin-bottom: 4px; }
+  .kpi-sub { font-size: 12px; color: var(--gray-400); }
+  .kpi-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; margin-top: 6px; }
+  .kpi-badge.up { background: var(--success-50); color: var(--success-700); }
+  .kpi-badge.down { background: var(--error-50); color: var(--error-700); }
+  .kpi-badge.neutral { background: var(--gray-100); color: var(--gray-600); }
+
+  /* CHARTS GRID */
+  .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+  @media(max-width: 900px) { .charts-grid { grid-template-columns: 1fr; } }
+  .chart-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-xs); }
+  .chart-title { font-size: 14px; font-weight: 600; color: var(--gray-800); margin-bottom: 4px; }
+  .chart-sub { font-size: 12px; color: var(--gray-500); margin-bottom: 16px; }
+  .chart-wrap { position: relative; height: 220px; }
+
+  /* INFO TIP */
+  .info-tip { position: relative; display: inline-flex; align-items: center; }
+  .info-tip .tip-icon { width: 16px; height: 16px; background: var(--gray-200); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; color: var(--gray-500); cursor: default; margin-left: 6px; }
+  .info-tip .tip-text { visibility: hidden; opacity: 0; position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%); background: var(--gray-900); color: white; font-size: 12px; padding: 8px 12px; border-radius: var(--radius-md); width: 240px; line-height: 1.5; transition: opacity .2s; z-index: 50; pointer-events: none; }
+  .info-tip:hover .tip-text { visibility: visible; opacity: 1; }
+
+  /* DEPTH BARS */
+  .depth-section { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-xs); margin-bottom: 32px; }
+  .depth-row { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+  .depth-row:last-child { margin-bottom: 0; }
+  .depth-label { width: 110px; font-size: 13px; font-weight: 500; color: var(--gray-700); flex-shrink: 0; }
+  .depth-bar-wrap { flex: 1; background: var(--gray-100); border-radius: 999px; height: 10px; }
+  .depth-bar { height: 10px; border-radius: 999px; transition: width 1s ease; }
+  .depth-bar.deep { background: var(--primary-600); }
+  .depth-bar.medium { background: var(--teal-500); }
+  .depth-bar.shallow { background: var(--warning-500); }
+  .depth-pct { width: 40px; font-size: 13px; font-weight: 600; color: var(--gray-700); text-align: right; }
+  .depth-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+  .depth-tag { padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 500; }
+  .depth-tag.deep { background: var(--primary-50); color: var(--primary-700); }
+  .depth-tag.medium { background: #e6faf8; color: #0e7a6b; }
+  .depth-tag.shallow { background: var(--warning-50); color: var(--warning-700); }
+
+  /* TOPICS */
+  .topics-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
+  .topic-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); box-shadow: var(--shadow-xs); overflow: hidden; }
+  .topic-header { display: flex; align-items: center; gap: 12px; padding: 16px 20px; cursor: pointer; user-select: none; transition: background .1s; }
+  .topic-header:hover { background: var(--gray-50); }
+  .topic-rank { width: 28px; height: 28px; border-radius: var(--radius-sm); background: var(--gray-100); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--gray-500); flex-shrink: 0; }
+  .topic-rank.hot { background: var(--primary-50); color: var(--primary-700); }
+  .topic-name { flex: 1; font-size: 14px; font-weight: 600; color: var(--gray-800); }
+  .topic-meta { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .platform-tags { display: flex; gap: 4px; }
+  .platform-tag { padding: 2px 7px; background: var(--gray-100); color: var(--gray-600); border-radius: 999px; font-size: 10px; font-weight: 500; }
+  .depth-chip { padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; }
+  .depth-chip.deep { background: var(--primary-50); color: var(--primary-700); }
+  .depth-chip.medium { background: #e6faf8; color: #0e7a6b; }
+  .depth-chip.shallow { background: var(--warning-50); color: var(--warning-700); }
+  .fire { font-size: 13px; letter-spacing: -1px; }
+  .chevron { width: 16px; height: 16px; transition: transform .2s; color: var(--gray-400); }
+  .chevron.open { transform: rotate(180deg); }
+  .topic-body { display: none; padding: 0 20px 20px; border-top: 1px solid var(--gray-100); }
+  .topic-body.open { display: block; }
+  .topic-summary { font-size: 13px; color: var(--gray-600); line-height: 1.7; margin: 12px 0; background: var(--gray-50); border-radius: var(--radius-md); padding: 12px 16px; border-left: 3px solid var(--primary-500); }
+  .topic-sources-title { font-size: 12px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+  .topic-sources { display: flex; flex-direction: column; gap: 6px; }
+  .topic-source { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+  .source-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--primary-400); flex-shrink: 0; }
+  .topic-source a { color: var(--primary-600); text-decoration: none; }
+  .topic-source a:hover { text-decoration: underline; }
+
+  /* MARKET TABLE */
+  .table-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); box-shadow: var(--shadow-xs); overflow: hidden; margin-bottom: 32px; }
+  table { width: 100%; border-collapse: collapse; }
+  thead th { background: var(--gray-50); padding: 12px 16px; text-align: left; font-size: 12px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: .05em; border-bottom: 1px solid var(--gray-200); }
+  tbody td { padding: 14px 16px; font-size: 13px; color: var(--gray-700); border-bottom: 1px solid var(--gray-100); }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: var(--gray-25); }
+  .td-name { font-weight: 600; color: var(--gray-800); }
+  .td-badge { display: inline-flex; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; }
+
+  /* WEEKLY PLACEHOLDER */
+  .weekly-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 400px; color: var(--gray-400); gap: 12px; }
+  .weekly-empty-icon { font-size: 48px; }
+  .weekly-empty-title { font-size: 16px; font-weight: 600; color: var(--gray-500); }
+
+  /* DIVIDER */
+  .divider { height: 1px; background: var(--gray-200); margin: 32px 0; }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <div class="logo">
+      <div class="logo-icon">⚡</div>
+      AI Pulse
+    </div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="switchTab('daily')">每日報告</button>
+      <button class="nav-tab" onclick="switchTab('weekly')">每週彙整</button>
+    </div>
+    <div class="date-badge">
+      <span>📅</span>
+      <span>2026 / 04 / 01</span>
+    </div>
+  </div>
+</div>
+
+<!-- DAILY PAGE -->
+<div id="page-daily" class="page active">
+<div class="container">
+
+  <!-- SECTION: TODAY'S INSIGHTS -->
+  <div class="section-header" style="margin-bottom:16px;">
+    <div class="section-title"><span class="icon">💡</span> 今日洞察</div>
+    <span style="font-size:12px;color:var(--gray-400);">基於 9 平台即時貼情分析</span>
+  </div>
+  <div class="insights-grid">
+    <div class="insight-card purple">
+      <div class="insight-num">洞察 01 · 技術突破</div>
+      <div class="insight-title">AI代理正式超越人類桌面操作基準</div>
+      <div class="insight-body">OpenAI GPT-5.4 在 OSWorld-V 桌面任務基準測試中以 75% 的得分超越人類基準 72.4%，標誌著 AI 從「對話工具」正式進入「自主數位工作者」時代。這一突破意義深遠——企業現在可以讓 AI 代理直接操作電腦完成複雜多步驟工作流程，無需額外開發基礎設施。</div>
+    </div>
+    <div class="insight-card teal">
+      <div class="insight-num">洞察 02 · 協議標準化</div>
+      <div class="insight-title">MCP 正在成為 AI 整合的事實標準</div>
+      <div class="insight-body">2026 年被業界定義為「MCP 企業採用元年」。Anthropic 推出的 Model Context Protocol 已被 OpenAI、Google DeepMind、VS Code、Cursor 等主流平台採用，形成跨廠商的統一標準。這意味著開發者只需建立一次整合，即可接入所有主流 AI 系統，大幅降低 AI 應用的開發成本與碎片化問題。</div>
+    </div>
+    <div class="insight-card rose">
+      <div class="insight-num">洞察 03 · 市場格局</div>
+      <div class="insight-title">開源 LLM 已佔生產部署過半份額</div>
+      <div class="insight-body">2026 年，DeepSeek V3.2（671B MoE）與 Meta Llama 4（10M token 上下文）主導開源市場，超過半數的生產 LLM 部署已選用開源模型而非 GPT-5 或 Claude 等閉源 API。中國開源模型與西方版本的發佈週期差距持續縮短，從數月驟縮至數週，正在重塑全球 AI 供應鏈格局。</div>
+    </div>
+    <div class="insight-card amber">
+      <div class="insight-num">洞察 04 · 台灣視角</div>
+      <div class="insight-title">台灣 AI 戰略轉向電力與散熱基礎設施</div>
+      <div class="insight-body">台灣 AI 產業討論已從模型與軟體轉向物理基礎設施。2026 年決勝點在於「電從哪來、熱往哪去」——高壓直流電（HVDC）、液冷技術成為供應鏈新焦點。長興化工、南寶樹脂等傳統產業因地緣政治與技術需求找到新舞台。台灣在 AI 算力擴張浪潮中的定位正從晶片生產擴展至完整基礎設施。</div>
+    </div>
+  </div>
+
+  <!-- KPI CARDS -->
+  <div class="section-header" style="margin-bottom:16px;">
+    <div class="section-title"><span class="icon">📊</span> 今日 AI 聲量 KPI</div>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label">監測平台數</div>
+      <div class="kpi-value">9</div>
+      <div class="kpi-sub">X · Reddit · PTT · Dcard · FB · YT · LinkedIn · Threads · IG</div>
+      <div class="kpi-badge neutral">全平台覆蓋</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">熱門話題數</div>
+      <div class="kpi-value">15</div>
+      <div class="kpi-sub">含深度分析 + 來源連結</div>
+      <div class="kpi-badge up">↑ 3 vs 昨日</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">深度應用佔比</div>
+      <div class="kpi-value">22%</div>
+      <div class="kpi-sub">API / Agent / RAG / MCP / 自動化</div>
+      <div class="kpi-badge up">↑ 2% vs 昨日</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">主力焦點模型</div>
+      <div class="kpi-value" style="font-size:18px;">GPT-5.4</div>
+      <div class="kpi-sub">OpenAI · 自主代理突破</div>
+      <div class="kpi-badge up">熱度最高</div>
+    </div>
+  </div>
+
+  <!-- CHARTS ROW -->
+  <div class="section-header" style="margin-bottom:16px;">
+    <div class="section-title"><span class="icon">📈</span> 平台 AI 佔比分析</div>
+    <div class="info-tip">
+      <span style="font-size:12px;color:var(--gray-400);">計算說明</span>
+      <span class="tip-icon">i</span>
+      <span class="tip-text">平台AI佔比 = 搜尋結果中AI相關討論/總討論抽樣×100%。數據基於關鍵字搜尋結果密度估算，非API真實數據。</span>
+    </div>
+  </div>
+  <div class="charts-grid">
+    <div class="chart-card">
+      <div class="chart-title">各平台 AI 討論佔比 (%)</div>
+      <div class="chart-sub">估算各平台今日 AI 相關討論佔總內容比例</div>
+      <div class="chart-wrap"><canvas id="platformChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">應用深度分布</div>
+      <div class="chart-sub">深度 / 中度 / 淺層應用各自佔比</div>
+      <div class="chart-wrap"><canvas id="depthChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- TOPIC LIST -->
+  <div class="section-header" style="margin-bottom:16px;">
+    <div class="section-title"><span class="icon">🔥</span> TOP 15 熱門話題</div>
+    <span style="font-size:12px;color:var(--gray-400);">點擊展開 AI 摘要與來源</span>
+  </div>
+  <div class="topics-list">
+
+    <!-- 01 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank hot">01</div>
+        <div class="topic-name">GPT-5.4 自主代理突破人類桌面操作基準</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">X</span><span class="platform-tag">Reddit</span><span class="platform-tag">LinkedIn</span></div>
+          <span class="depth-chip deep">深度</span>
+          <span class="fire">🔥🔥🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">OpenAI 發布 GPT-5.4，在模擬真實桌面生產力任務的 OSWorld-V 基準測試中取得 75% 得分，正式超越人類基準 72.4%。這是 AI 歷史上的關鍵轉折點——模型不僅能對話、推理，還能自主操作電腦、跨應用執行多步驟工作流程，且無需開發者額外建置基礎設施。配備 100 萬 token 上下文窗口，讓 AI 代理可在更長的任務序列中規劃、執行與驗證。對企業的市場意義在於：「AI 同事」正從概念走向實際可用的生產工具，重新定義知識工作者的角色分工。預期 2026 年第二季將有大量企業開始評估「以 AI 代理取代部分人工流程」的 ROI。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://openai.com/index/introducing-gpt-5-4/" target="_blank">Introducing GPT-5.4 | OpenAI 官方公告</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://fortune.com/2026/03/05/openai-new-model-gpt5-4-enterprise-agentic-anthropic/" target="_blank">OpenAI launches GPT-5.4 for enterprise work | Fortune</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.abaka.ai/blog/gpt-5-4-desktop-automation-breakthrough" target="_blank">GPT-5.4 Beats Humans at Desktop Tasks | Abaka AI</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank hot">02</div>
+        <div class="topic-name">MCP 企業採用元年：AI 整合標準化加速</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">Reddit</span><span class="platform-tag">LinkedIn</span><span class="platform-tag">DEV</span></div>
+          <span class="depth-chip deep">深度</span>
+          <span class="fire">🔥🔥🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">2026 年業界普遍將其定義為「MCP 企業採用元年」。Anthropic 於 2024 年 11 月推出的 Model Context Protocol 已成為 AI 整合的事實標準——OpenAI、Google DeepMind、VS Code、Cursor、Replit、Sourcegraph 等均已支援。開發者現在只需「建立一次，接入所有」，徹底解決了 AI 工具整合碎片化的問題。對中小型開發團隊而言，MCP 大幅降低了建構 AI Agent 的門檻；對企業而言，標準化意味著更好的治理與合規。CData、The New Stack 等媒體指出，MCP 的 2026 路線圖將聚焦於解決生產環境中的效能與安全性痛點。這是繼 REST API 之後，AI 時代最重要的整合協議標準化進程。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.cdata.com/blog/2026-year-enterprise-ready-mcp-adoption" target="_blank">2026: The Year for Enterprise-Ready MCP Adoption | CData</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://dev.to/universe7creator/the-complete-guide-to-model-context-protocol-mcp-building-ai-native-applications-in-2026-5e57" target="_blank">Complete Guide to MCP in 2026 | DEV Community</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://thenewstack.io/model-context-protocol-roadmap-2026/" target="_blank">MCP Roadmap 2026 | The New Stack</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank hot">03</div>
+        <div class="topic-name">Anthropic Claude 訂閱用戶翻倍，AI 助理市場三足鼎立</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">X</span><span class="platform-tag">LinkedIn</span></div>
+          <span class="depth-chip medium">中度</span>
+          <span class="fire">🔥🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">Anthropic 的 Claude 付費訂閱用戶在 2026 年成長超過一倍，公司年化收入接近 190 億美元，與 OpenAI 的 250 億美元差距正在縮小。Anthropic 同步推出 Claude Sonnet 4.6 與 Opus 4.6，並在測試版提供 100 萬 token 的超長上下文窗口。2026 年的 AI 助理市場已形成明顯三足鼎立格局：ChatGPT 以普及率稱霸、Gemini 靠 Google 生態滲透企業、Claude 則以「複雜推理與安全性」吸引高端付費用戶。市場意義在於：AI 助理已進入「差異化競爭」而非純粹的技術比拼，品牌定位與使用場景日益重要。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.techbuzz.ai/articles/claude-paid-subscriptions-double-as-anthropic-gains-ground" target="_blank">Claude Paid Subscriptions Double | TechBuzz AI</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://teamai.com/blog/uncategorized/claude-vs-chatgpt-vs-gemini-in-2026-giants-challengers-and-the-ai-odel-showdown/" target="_blank">Claude vs ChatGPT vs Gemini 2026 Showdown | TeamAI</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.crescendo.ai/news/latest-ai-news-and-updates" target="_blank">Latest AI News 2026 | Crescendo AI</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank hot">04</div>
+        <div class="topic-name">Cursor vs GitHub Copilot：AI 編程工具 360 億美元估值大戰</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">Reddit</span><span class="platform-tag">X</span><span class="platform-tag">LinkedIn</span></div>
+          <span class="depth-chip deep">深度</span>
+          <span class="fire">🔥🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">Cursor 由四位 MIT 畢業生創立，在不到 24 個月內年化收入突破 10 億美元，估值達 293 億美元。GitHub Copilot 則已累積超過 2000 萬用戶，進入全球 90% 的財富百強企業。兩者代表不同的 AI 編程哲學：Copilot 像「快速自動補全」，Cursor 像「在編輯器內的智慧協作者」，而 Claude Code 則像「把任務交給同事讓他完成」。2026 年的開發者調查顯示，65% 的開發者定期使用 AI 編程工具，但實際生產力提升相對務實——約 20-30% 的效率增長集中在特定工作流程，而非行銷宣傳中的「10倍速」。這場競爭正在加速兩者的功能創新，最終受益者是全球開發者社群。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://digidai.github.io/2026/02/08/cursor-vs-github-copilot-ai-coding-tools-deep-comparison/" target="_blank">Cursor vs GitHub Copilot: $36B War for the Future | DigiDai</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.digitalocean.com/resources/articles/github-copilot-vs-cursor" target="_blank">GitHub Copilot vs Cursor Review 2026 | DigitalOcean</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.adventureppc.com/blog/claude-code-vs-cursor-vs-github-copilot-the-definitive-ai-coding-tool-comparison-for-2026" target="_blank">Claude Code vs Cursor vs Copilot 2026 | AdventurePPC</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank">05</div>
+        <div class="topic-name">ChatGPT Health 整合醫療記錄：AI 進入個人健康管理</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">X</span><span class="platform-tag">Reddit</span><span class="platform-tag">YouTube</span></div>
+          <span class="depth-chip shallow">淺層</span>
+          <span class="fire">🔥🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">2026 年 1 月 7 日，OpenAI 推出 ChatGPT Health，允許用戶連結電子病歷、Apple Health 及 MyFitnessPal、Peloton 等健康應用，在 AI 對話中獲得基於個人健康數據的洞察。這不是診斷工具，而是協助用戶「更主動理解並管理自身健康」的個人健康顧問。Privacy 爭議隨即爆發——批評者指出將完整醫療記錄交給 OpenAI 存在風險，而 OpenAI 聲稱健康對話數據不用於訓練模型並使用專屬加密機制。市場意義：AI 醫療入口正在從 B2B 醫院系統轉向直接面向消費者的 C 端應用，預計將引發更多監管關注與競爭跟進。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://openai.com/index/introducing-chatgpt-health/" target="_blank">Introducing ChatGPT Health | OpenAI 官方</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.cnbc.com/2026/01/07/openai-chatgpt-health-medical-records.html" target="_blank">OpenAI launches ChatGPT Health | CNBC</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://time.com/7344997/chatgpt-health-medical-records-privacy-open-ai/" target="_blank">Is Giving ChatGPT Health Your Medical Records a Good Idea? | TIME</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 06 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank">06</div>
+        <div class="topic-name">開源 LLM 大戰：DeepSeek V3.2 vs Llama 4 正面對決</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">Reddit</span><span class="platform-tag">YouTube</span><span class="platform-tag">X</span></div>
+          <span class="depth-chip deep">深度</span>
+          <span class="fire">🔥🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">2026 年開源 LLM 市場由 DeepSeek V3.2（671B MoE 架構，MIT 授權）與 Meta Llama 4（1000 萬 token 超長上下文）共同主導。DeepSeek 採用混合專家架構，每個 token 僅啟動 370 億參數，在維持超大模型規模的同時控制計算成本。Llama 4 的 1000 萬 token 上下文讓其在長文件、長期記憶與複雜 Agent 任務中具有獨特優勢。最關鍵的市場信號：超過 50% 的企業生產 LLM 部署已轉向開源模型，意味著閉源 API 的定價模式面臨結構性挑戰。中美開源模型的發佈週期差距從數月縮短至數週，地緣政治角力正在 AI 技術層面加速演繹。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://o-mega.ai/articles/top-10-open-source-llms-the-deepseek-revolution-2026" target="_blank">Top 10 Open Source LLMs 2026: DeepSeek Revolution | o-mega.ai</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://aitoolranked.com/blog/best-open-source-llm-2026-llama-deepseek-qwen-comparison" target="_blank">Best Open Source LLM 2026 Comparison | AIToolRanked</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://scopir.com/posts/best-open-source-llms-2026/" target="_blank">DeepSeek vs Llama vs Gemma 2026 | Scopir</a></div>
+        </div>
+      </div>
+    </div>or-youtube-content-creators" target="_blank">8 Best AI Video Tools for YouTube Creators 2026 | DomoAI</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://posteverywhere.ai/blog/25-best-ai-tools-for-youtube" target="_blank">25 Best AI Tools for YouTube 2026 | PostEverywhere</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://shotstack.io/learn/best-ai-tools-for-youtube-automation/" target="_blank">8 Best AI Tools for YouTube Automation | Shotstack</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank">10</div>
+        <div class="topic-name">NASA 火星車隊 Claude AI 規劃行進路線，28 年人工任務首度 AI 化</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">X</span><span class="platform-tag">Reddit</span></div>
+          <span class="depth-chip medium">中度</span>
+          <span class="fire">🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">NASA 毅力號火星車完成了首批隊 Anthropic Claude 視覺語言模型規劃的火星行飛任務，取代了人類手動執行長達 28 年的複雜規劃工作。Claude 透過分析地形圖像、評估路線風險並生成可執行的移動指令，讓科學家能聚焦於更高層次的探索決策。這不僅是 AI 在太空科學領域的里程碑應用，更象徵 AI 在「高風險、低容錯」任務中的可靠性已達到人類替代的閾值。對地球產業的市場意義：若 AI 能在火星任務中承擔關鍵規劃，其在地球製造、物流與基礎設施維護中的「自主決策」潛在值得全面重新評估。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.crescendo.ai/news/latest-ai-news-and-updates" target="_blank">NASA Mars Rover AI Planning | Crescendo AI News</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.startuphub.ai/ai-news/artificial-intelligence/2026/ai-models-chatgpt-claude-gemini-and-beyond" target="_blank">AI Models 2026 Developments | StartupHub AI</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 11 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank">11</div>
+        <div class="topic-name">LinkedIn 成 AI 搜尋最常引用來源，專業內容價值急升</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">LinkedIn</span><span class="platform-tag">X</span></div>
+          <span class="depth-chip shallow">淺層</span>
+          <span class="fire">🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">2026 年 3 月，Axios 報導 LinkedIn 已成為 ChatGPT 等 AI 聊天機器人引用的第一大來源域名，引用頻次自 2025 年 11 月起翻倍。LinkedIn 的貼文、長文與電子報佔 ChatGPT 所有 LinkedIn 引用的 35%。這一趨勢對內容創作者和行銷人員的意義深遠：在 AI 搜尋時代，在 LinkedIn 上定期發佈高質量專業內容的個人和品牌，正在獲得遠超傳統 SEO 的「AI 搜尋可見度」。平台策略師建議企業將 LinkedIn 的思想領袖內容納入 AI 時代的「搜尋可見性」策略核心。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.axios.com/2026/03/10/linkedin-chatgpt-ai-chatbot-answers" target="_blank">LinkedIn becomes top source for ChatGPT answers | Axios</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://metricool.com/linkedin-trends/" target="_blank">2026 LinkedIn Trends: Content Formats | Metricool</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank">12</div>
+        <div class="topic-name">PTT 熱討：AI 取代工作的話題達到新高潮</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">PTT</span></div>
+          <span class="depth-chip shallow">淺層</span>
+          <span class="fire">🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">PTT Soft_Job、Stock 等看板的 AI 取代就業討論在 2026 年持續升溫。討論焦點已從「AI 會不會取代人類」轉向「哪些職位已被取代、薪資如何調整、如何轉型」的具體策略層次。PTT 用戶的普遍焦慮集中在：軟體開發初階職位因 AI 編程助理的普及而需求下降；白領辦公室工作因 AI Agent 的崛起面臨員縮。樂觀討論者則分享如何透過「使用 AI 工具倍增產能」來在職場保持競爭力。從媒體熱度觀察，此議題的長期存在顯示台灣勞工社群對 AI 影響的焦慮程度持續高於全球平均。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.ptt.cc/bbs/Soft_Job/M.1763522645.A.A80.html" target="_blank">[討論] 說 AI 不會取代的可以閉嘴了 | PTT Soft_Job</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.ptt.cc/bbs/Soft_Job/M.1722498571.A.51F.html" target="_blank">[討論] 太依賴AI去工作是不是不太好？| PTT Soft_Job</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 13 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank">13</div>
+        <div class="topic-name">Perplexity AI 成學術研究首選，引發學術誠信爭議</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">Reddit</span><span class="platform-tag">LinkedIn</span></div>
+          <span class="depth-chip medium">中度</span>
+          <span class="fire">🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">Perplexity AI 在 Reddit 的 r/PhD、r/GradSchool、r/academia 等學術社群中迅速成為首選研究工具，用戶讚譽其「附引用來源的即時網路搜尋能力」讓研究工作效率大幅提升。然而，學術機構的擔憂也隨之而來：學生過度依賴 Perplexity 提供的引用摘要，可能導致「選擇性理解」或「不知原始論文」的學術行為退化。部分大學開始修訂 AI 使用政策，明確區分「AI 輔助研究」與「AI 替代思考」的界線。市場意義：Perplexity 模式——即「具備引用機制的 AI 搜尋」——正在重新定義資訊獲取的方式，對傳統搜尋引擎（Google）和學術資料庫（JSTOR、Web of Science）構成結構性威脅。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.aitooldiscovery.com/guides/best-ai-for-research-reddit" target="_blank">Best AI for Research: Reddit's Top Picks 2026 | AIToolDiscovery</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://aitoolscoutai.com/best-ai-subreddits-2026-guide/" target="_blank">Best AI Subreddits 2026 | AI Tool Scout</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 14 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank">14</div>
+        <div class="topic-name">Dcard AI 生成文章品質爭議：「真實性」成平台存亡關鍵</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">Dcard</span><span class="platform-tag">X</span></div>
+          <span class="depth-chip shallow">淺層</span>
+          <span class="fire">🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">Dcard 正面臨一個 2026 年社群平台普遍面臨的困境：AI 生成文章大量湧入，語氣生硬、結構雷同，缺乏人類情感與獨特觀點。用戶開始抱怨「平台從情感交流的樹洞，變成了大型個人廣告看板」。Dcard 推動的「創作者計畫」個人 IP 化轉型，雖然初衷是提升內容品質，卻可能進一步加劇「表演式分享」而非真實交流的趨勢。根據口碑行銷 2026 趨勢白皮書，在 AI 時代「真實性」已成為品牌和平台最重要的護城河。市場意義：判別 AI 生成內容、維護社群真實性將成為 2026 年所有 UGC 平台的核心治理挑戰，也將催生「AI 內容偵測」相關工具的商機。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://vocus.cc/article/69c5f955fd89780001db189b" target="_blank">Dcard 流量下滑的觀察：AI文、創作者枯竭 | 方格子</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://enterimc.com/2026-%E5%8F%A3%E7%A2%91%E8%A1%8C%E9%8A%B7%E8%B6%A8%E5%8B%A2%E7%99%BD%E7%9A%AE%E6%9B%B8" target="_blank">2026口碑行銷趨勢白皮書 | 確認鍵行銷</a></div>
+        </div>
+      </div>
+    </div>勢白皮書：真實性 | 確認鍵行銷</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 15 -->
+    <div class="topic-card">
+      <div class="topic-header" onclick="toggleTopic(this)">
+        <div class="topic-rank">15</div>
+        <div class="topic-name">技術圈迎 AI 聖杯時刻：多模態推理達成「通用」邊界</div>
+        <div class="topic-meta">
+          <div class="platform-tags"><span class="platform-tag">X</span><span class="platform-tag">Reddit</span><span class="platform-tag">YouTube</span></div>
+          <span class="depth-chip deep">深度</span>
+          <span class="fire">🔥🔥🔥🔥🔥</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-summary">2026 年 3 月，多位 AI 研究者在論文與討論中達成共識：AI 正在達成「通用多模態推理」的邊界。GPT-5.4、Gemini 2.0 Ultra、Claude 4 等模型已不再侷限於「語言工具」，而是能流暢地在文字、圖像、影片、音頻、3D 場景之間進行推理。特別是在零樣本學習與遷移學習中，AI 表現超越人類基準。這標誌著 AI 從「單一模式擅長者」向「跨模式通才」的關鍵轉折。技術圈將此稱為「AI 的寒武紀爆炸時刻」——不同應用場景在統一基礎模型上爆發出多樣化創新。市場意義：通用多模態 AI 將打破傳統垂直應用的邊界，催生全新的商業邏輯——從「特定工具」轉向「智慧個人助理」的範式轉移。預期未來 12 個月內，大型企業的「AI 中台」投資將爆發性增長。</div>
+        <div class="topic-sources-title">來源</div>
+        <div class="topic-sources">
+          <div class="topic-source"><span class="source-dot"></span><a href="https://arxiv.org/list/cs.AI/recent" target="_blank">Latest AI Research Papers 2026 | arXiv</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://technewstoday.ai/multimodal-ai-2026-era-of-intelligence-convergence/" target="_blank">Multimodal AI 2026: The Era of Intelligence Convergence | TechNews Today</a></div>
+          <div class="topic-source"><span class="source-dot"></span><a href="https://www.reddit.com/r/machinelearning/" target="_blank">ML Community Discussion | r/machinelearning</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEPTH SECTION -->
+  <div class="section-header" style="margin-bottom:16px;">
+    <div class="section-title"><span class="icon">📊</span> 應用深度分布</div>
+    <span style="font-size:12px;color:var(--gray-400);">AI 討論依照應用複雜度分層統計</span>
+  </div>
+  <div class="depth-section">
+    <div class="depth-row">
+      <div class="depth-label">深度應用</div>
+      <div class="depth-bar-wrap"><div class="depth-bar deep" style="width:0%"></div></div>
+      <div class="depth-pct">22%</div>
+      <div class="depth-tags"><span class="depth-tag deep">Agent</span><span class="depth-tag deep">RAG</span><span class="depth-tag deep">API</span></div>
+    </div>
+    <div class="depth-row">
+      <div class="depth-label">中度應用</div>
+      <div class="depth-bar-wrap"><div class="depth-bar medium" style="width:0%"></div></div>
+      <div class="depth-pct">38%</div>
+      <div class="depth-tags"><span class="depth-tag medium">Fine-tune</span><span class="depth-tag medium">Prompt Engineering</span></div>
+    </div>
+    <div class="depth-row">
+      <div class="depth-label">淺層使用</div>
+      <div class="depth-bar-wrap"><div class="depth-bar shallow" style="width:0%"></div></div>
+      <div class="depth-pct">40%</div>
+      <div class="depth-tags"><span class="depth-tag shallow">Chatbot</span><span class="depth-tag shallow">內容生成</span></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+</div>
+</div>
+
+<!-- WEEKLY PAGE -->
+<div id="page-weekly" class="page">
+<div class="container">
+  <div class="weekly-empty">
+    <div class="weekly-empty-icon">📅</div>
+    <div class="weekly-empty-title">每週彙整敬請期待</div>
+    <span style="font-size:13px;color:var(--gray-500);">此功能每週五 18:00 更新</span>
+  </div>
+</div>
+</div>
+
+<script>
+// Data for platform chart
+const platformChartData = {
+  labels: ['X', 'Reddit', 'PTT', 'Dcard', 'FB', 'YT', 'LinkedIn', 'Threads', 'IG'],
+  datasets: [{
+    label: 'AI 討論佔比 (%)',
+    data: [24, 20, 16, 12, 8, 7, 6, 4, 3],
+    backgroundColor: [
+      '#7f56d9', '#2e90fa', '#15b79e', '#f63d68',
+      '#f79009', '#12b76a', '#7f56d9', '#f63d68', '#2e90fa'
+    ],
+  }]
+};
+
+// Data for depth chart
+const depthChartData = {
+  labels: ['深度', '中度', '淺層'],
+  datasets: [{
+    data: [22, 38, 40],
+    backgroundColor: ['#7f56d9', '#15b79e', '#f79009'],
+  }]
+};
+
+function initCharts() {
+  if (typeof Chart !== 'undefined') {
+    // Platform bar chart
+    const platformCtx = document.getElementById('platformChart');
+    if (platformCtx) {
+      new Chart(platformCtx, {
+        type: 'bar',
+        data: platformChartData,
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true, max: 30 } }
+        }
+      });
+    }
+
+    // Depth pie chart
+    const depthCtx = document.getElementById('depthChart');
+    if (depthCtx) {
+      new Chart(depthCtx, {
+        type: 'doughnut',
+        data: depthChartData,
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom' } }
+        }
+      });
+    }
+  }
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + tab).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function toggleTopic(header) {
+  const body = header.nextElementSibling;
+  const chevron = header.querySelector('.chevron');
+  body.classList.toggle('open');
+  chevron.classList.toggle('open');
+}
+
+window.addEventListener('load', initCharts);
+initCharts();
+</script>
+
+</body>
+</html> label: 'AI 討論佔比 (%)',
+      data: [24, 20, 16, 12, 8, 7, 6, 4, 3],
+      backgroundColor: [
+        '#7f56d9','#15b79e','#2e90fa','#f63d68','#f79009','#9e77ed','#98a2b3','#344054','#667085'
+      ],
+      borderRadius: 6,
+      borderSkipped: false
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    indexAxis: 'y',
+    plugins: { legend: { display: false } },
+    scales: { x: { beginAtZero: true, max: 30 } }
+  }
+});
+
+function switchTab(tab) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + tab).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function toggleTopic(header) {
+  const body = header.nextElementSibling;
+  const chevron = header.querySelector('.chevron');
+  body.classList.toggle('open');
+  chevron.classList.toggle('open');
+}
+
+window.addEventListener('load', initCharts);
+initCharts();
 </script>
 </body>
 </html>
